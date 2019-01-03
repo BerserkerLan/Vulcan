@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BreifingTextControl : MonoBehaviour {
@@ -49,10 +50,13 @@ public class BreifingTextControl : MonoBehaviour {
         }
         if (currentTutorialIndex == levelStartIndex)
         {
-            Debug.Log("Start Level"); 
             if (state == TutorialState.UItutorial)
             {
                 UIPanel.SetActive(false);
+            }
+            else if (state == TutorialState.tutorial_1)
+            {
+                SceneManager.LoadScene(1);
             }
         }
         else

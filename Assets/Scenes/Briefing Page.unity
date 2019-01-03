@@ -1432,6 +1432,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextButton: {fileID: 268087074}
   backButton: {fileID: 834481925}
+  UIPanel: {fileID: 0}
+  state: 0
+  levelStartIndex: 10
   tutorialInstructions:
   - "Ok maggot, my name is colonel Packet. You best remember that.\r\n\r\nYour only
     purpose in life is to serve me and me alone.\r\n\r\nDefend our network from attacks,

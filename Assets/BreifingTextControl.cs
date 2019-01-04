@@ -9,10 +9,11 @@ public class BreifingTextControl : MonoBehaviour {
 
    public enum TutorialState
     {
-        tutorial_1, UItutorial
+        tutorial_1,tutorial_2, UItutorial
     }
 
     int currentTutorialIndex;
+    
     public Button nextButton, backButton;
     public GameObject UIPanel;
     public TutorialState state;
@@ -27,6 +28,7 @@ public class BreifingTextControl : MonoBehaviour {
         StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
         nextButton.onClick.AddListener(loadNextInstruction);
         backButton.onClick.AddListener(loadPreviousInstruction);
+        backButton.gameObject.SetActive(false);
 
     }
 	

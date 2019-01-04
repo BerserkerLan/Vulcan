@@ -94,6 +94,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacket.gameObject.SetActive(true);
                 bobPacket.playMovement();
                 alicePacket.playMovement();
+
             }
             else
             {
@@ -103,6 +104,8 @@ public class LevelWinner : MonoBehaviour {
           
         }
     }
+
+    void StartTutorial2()
 
     void runCommand()
     {

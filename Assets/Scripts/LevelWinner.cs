@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelWinner : MonoBehaviour {
@@ -66,6 +67,13 @@ public class LevelWinner : MonoBehaviour {
         losingPanel.SetActive(false);
 
     }
+    IEnumerator loadLevel2Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_2;
+        SceneManager.LoadScene(0);
+    }
 
     void showOrHideHint()
     {
@@ -94,6 +102,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacket.gameObject.SetActive(true);
                 bobPacket.playMovement();
                 alicePacket.playMovement();
+                StartCoroutine(loadLevel2Tutorial());
 
             }
             else
@@ -106,6 +115,11 @@ public class LevelWinner : MonoBehaviour {
     }
 
     void StartTutorial2()
+    {
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_2;
+        SceneManager.LoadScene(0);
+    }
 
     void runCommand()
     {

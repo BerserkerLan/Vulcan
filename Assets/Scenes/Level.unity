@@ -4163,7 +4163,7 @@ MonoBehaviour:
   nextButton: {fileID: 31568144}
   backButton: {fileID: 1045079463}
   UIPanel: {fileID: 1492768096}
-  state: 1
+  state: 2
   levelStartIndex: 4
   tutorialInstructions:
   - What you see above is the firewall. Click on the INPUT or OUTPUT buttons on the

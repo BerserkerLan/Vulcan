@@ -145,7 +145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.5750122}
+  m_AnchoredPosition: {x: 0, y: 0.5}
   m_SizeDelta: {x: -672.4, y: -26.549988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &21334764
@@ -519,7 +519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 184.94995, y: -185.95001}
+  m_AnchoredPosition: {x: 185, y: -186}
   m_SizeDelta: {x: -397.3, y: -391.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &268087074
@@ -1018,7 +1018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -184.94995, y: -185.95001}
+  m_AnchoredPosition: {x: -185, y: -186}
   m_SizeDelta: {x: -397.3, y: -391.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &834481925
@@ -1226,7 +1226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -24.27002}
+  m_AnchoredPosition: {x: 0, y: -24.25}
   m_SizeDelta: {x: -113.619995, y: -128.56003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1142033512
@@ -1296,7 +1296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 24.699951}
+  m_AnchoredPosition: {x: 0, y: 24.75}
   m_SizeDelta: {x: -27.4, y: -69.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1261027208
@@ -1434,7 +1434,7 @@ MonoBehaviour:
   backButton: {fileID: 834481925}
   UIPanel: {fileID: 0}
   state: 0
-  levelStartIndex: 10
+  levelStartIndex: 9
   tutorialInstructions:
   - "Ok maggot, my name is colonel Packet. You best remember that.\r\n\r\nYour only
     purpose in life is to serve me and me alone.\r\n\r\nDefend our network from attacks,
@@ -1448,9 +1448,9 @@ MonoBehaviour:
     it is from and who it is going to, just like what you humans call Mail."
   - "The firewall we will be dealing with is a simple one that uses two tables to
     check whether it should allow communication between computers or not.\r"
-  - "The INPUT table lists rules to check when information is going INTO the network
+  - "The INPUT table lists rules to check when packets are going INTO the network
     through the firewall, as shown on the left.\r\n"
-  - "The OUTPUT table lists rules that the firewall checks when information is going
+  - "The OUTPUT table lists rules that the firewall checks when packets are going
     OUT of the network, as shown on the left again.\r"
   - "Firewalls can be configured using a terminal, so I've made a simpler version
     of the terminal for you to use. We will use this terminal to add or remove rules.\r\nOh
@@ -1458,6 +1458,26 @@ MonoBehaviour:
     in its tables, it does whatever the DEFAULT POLICY states. More on it this level.\r\n\n"
   - "What? I'm going too fast? I should have expected this from such lowly evolved
     species. Fine, lets go on to the first level and go through this practically.\r\n"
+  - Well, you humans are better than I thought! Well done. Now that was how you set
+    a default policy, now let us go into how you actually add rules to the table!
+  - 'A packet is sent from a computer, and send to another computer. How do you think
+    a packet would be able to identify one computer from another? This is where IP
+    addresses come into networking.
+
+'
+  - IP addresses are unique for every computer. The very computer you're playing this
+    on definitely has an IP address. They are a set of numbers seperated by a . ,
+    for e.g. 192.154.23.14 is an IP address.
+  - 'A packet has the IP addresses of the one who sends the packet and the one it
+    has to go to written on it.
+
+    Hence, we can use IP addresses to block access of some packet to only a particular
+    computer on a network, and not all of them!'
+  - "Now, let us test this out by adding a Firewall Rule!\nTo add a rule to block
+    a connection coming into Alice from Bob, Where Bob has an IP address of say 192.35.42.52,
+    we could type in:\n      iptables -A INPUT -s 192.35.42.52\nWhere -A means APPEND,
+    and -s means SOURCE i.e. where did the packet come from."
+  - Now, lets play! Try out the hint button if you forget the command!
 --- !u!1 &1728306836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1513,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 191.3501, y: 0.32495117}
+  m_AnchoredPosition: {x: 191.25, y: 0.25}
   m_SizeDelta: {x: -457.7, y: -35.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1728306838
@@ -1563,7 +1583,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 255.70001}
+  m_AnchoredPosition: {x: 0, y: 255.75}
   m_SizeDelta: {x: -113.6, y: -537}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1937518384
@@ -1632,7 +1652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -263.8, y: 37.80005}
+  m_AnchoredPosition: {x: -263.74994, y: 37.75}
   m_SizeDelta: {x: -602.6, y: -110.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1972196900
@@ -1702,7 +1722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -263.8, y: -176}
+  m_AnchoredPosition: {x: -263.74994, y: -176}
   m_SizeDelta: {x: -601.78, y: -422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2107846722

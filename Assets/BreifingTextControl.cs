@@ -17,6 +17,8 @@ public class BreifingTextControl : MonoBehaviour {
     public Button nextButton, backButton;
     public GameObject UIPanel;
     public TutorialState state;
+    public static TutorialState staticTutorialState;
+    public static bool changedTutorialState = false;
     
     public int levelStartIndex;
 
@@ -24,18 +26,26 @@ public class BreifingTextControl : MonoBehaviour {
     public string[] tutorialInstructions;
     // Use this for initialization
     void Start () {
+       
         currentTutorialIndex = 0;
+        if (changedTutorialState)
+        {
+            state = staticTutorialState;
+           
+        }
+        if (state == TutorialState.tutorial_2)
+        {
+            levelStartIndex = 15;
+            currentTutorialIndex = 9;
+        }
         StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
         nextButton.onClick.AddListener(loadNextInstruction);
         backButton.onClick.AddListener(loadPreviousInstruction);
         backButton.gameObject.SetActive(false);
+       
 
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-    }
 
     void loadNextInstruction()
     {

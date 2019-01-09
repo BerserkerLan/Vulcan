@@ -8,6 +8,7 @@ public class Packet : MonoBehaviour {
     {
         Alice //"192.168.63.52"
        ,Bob  //"192.424.52.12"
+       ,Charlie//""192.11.76.5"
     }
     public enum Port
     {
@@ -30,23 +31,24 @@ public class Packet : MonoBehaviour {
     public string destinationIP;
 
     bool collided = false;
-    bool startMoving = false;
+    bool startMoving1 = false;
+    bool startMoving2 = false;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
         Debug.Log(collision.gameObject.name);
-        startMoving = false;
+        startMoving1 = false;
     }
 
     public void playMovement()
     {
-        startMoving = true;
+        startMoving1 = true;
     }
 
     private void Update()
     {
-        if (startMoving)
+        if (startMoving1)
         {
             if (sender == Sender.Bob)
             {
@@ -57,6 +59,13 @@ public class Packet : MonoBehaviour {
                 gameObject.transform.position += new Vector3(0.1f, 0, 0);
             }
 
+        }
+        if (startMoving2)
+        {
+            if (sender == Sender.Bob)
+            {
+
+            }
         }
     }
 }

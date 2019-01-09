@@ -1478,6 +1478,10 @@ MonoBehaviour:
     we could type in:\n      iptables -A INPUT -s 192.35.42.52\nWhere -A means APPEND,
     and -s means SOURCE i.e. where did the packet come from."
   - Now, lets play! Try out the hint button if you forget the command!
+  - 'Wow, you really have improved my opinion of your race. You''re not too shabby!
+    Congratulations on adding that rule!
+
+'
 --- !u!1 &1728306836
 GameObject:
   m_ObjectHideFlags: 0

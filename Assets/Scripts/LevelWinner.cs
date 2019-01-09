@@ -29,13 +29,16 @@ public class LevelWinner : MonoBehaviour {
     public GameObject UITutorial;
     public GameObject[] networkDiagrams;
     public GameObject losingPanel;
-    
+    [TextArea(20,30)]
+    public string[] hintText;
+    public GameObject bobPacketLevel2;
+    public GameObject charliePacketLevel2;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         selectedBlueColor = new Color();
         UnselectedBlueColor = new Color();
-        hintBox.SetActive(false);
         ColorUtility.TryParseHtmlString("#2F49AD", out selectedBlueColor);
         ColorUtility.TryParseHtmlString("#3F63EC", out UnselectedBlueColor);
         playButton.onClick.AddListener(handleLevel);
@@ -46,10 +49,13 @@ public class LevelWinner : MonoBehaviour {
         if (levelNumber == 1)
         {
             showUITutorial();
-            networkDiagrams[levelNumber - 1].SetActive(true);
         }
-	}
-	
+        networkDiagrams[levelNumber - 1].SetActive(true);
+        hintBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
+        hintBox.SetActive(false);
+
+    }
+
     void showUITutorial()
     {
         UITutorial.SetActive(true);
@@ -67,6 +73,14 @@ public class LevelWinner : MonoBehaviour {
         losingPanel.SetActive(false);
 
     }
+    IEnumerator loadLevel3Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_3;
+        SceneManager.LoadScene(0);
+    }
+
     IEnumerator loadLevel2Tutorial()
     {
         yield return new WaitForSeconds(6);
@@ -111,6 +125,31 @@ public class LevelWinner : MonoBehaviour {
                 ShowLosingPanel();
             }
           
+        }
+        if (levelNumber == 2)
+        {
+            //Need Alice to allow communication from BOB only, and not charlie, so iptables -A INPUT -s 192.11.76.5 -j DROP is all thats needed
+            //In the array, it'll be listed as "DROP 192.11.76.5 ANY ANY ANY" in the INPUT table 
+            string winningRule = "DROP 192.11.76.5 ANY ANY ANY";
+            if (inputTableRules.Contains(winningRule))
+            {
+                Debug.Log("You win boi!");
+                bobPacketLevel2.SetActive(true);
+                charliePacketLevel2.SetActive(true);
+                charliePacketLevel2.GetComponent<Animation>().Play();
+                bobPacketLevel2.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel3Tutorial());
+                
+
+            }
+            else
+            {
+                Debug.Log("You lose :(");
+                ShowLosingPanel();
+            }
+
+
+
         }
     }
 
@@ -186,8 +225,10 @@ public class LevelWinner : MonoBehaviour {
                     }
                 }
                 string acceptOrDrop = commandsParse[commandsParse.Length - 1];
+                string sourcePort = dport;
+                string destinationIP = "ANY";
 
-                string rule = table + " " + protocol + " " + dport + " " + sourceIP + " " + acceptOrDrop;
+                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + protocol;
                 addInputRule(rule);
                 
 
@@ -218,7 +259,7 @@ public class LevelWinner : MonoBehaviour {
 
     }
 
-    void addInputRule(string rule_s) //The current rule will have format : "table(INPUT) Protocol(any if none) dport(any if none) sourceIP AcceptOrDrop"
+    void addInputRule(string rule_s) //The current rule will have format : "ACCEPTorDROP sourceIP sourcePort destinationIP protocol(destinationPort)"
     {
         inputTableRules.Add(rule_s);
         string[] rule = rule_s.Split(' ');
@@ -237,6 +278,7 @@ public class LevelWinner : MonoBehaviour {
             textMesh.font = textMeshFont;
             textMesh.fontSize = 20.52f;
             textMesh.text = rule[i];
+            textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
         }
     
    }

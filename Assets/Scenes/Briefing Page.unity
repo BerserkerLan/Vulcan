@@ -1478,10 +1478,27 @@ MonoBehaviour:
     we could type in:\n      iptables -A INPUT -s 192.35.42.52\nWhere -A means APPEND,
     and -s means SOURCE i.e. where did the packet come from."
   - Now, lets play! Try out the hint button if you forget the command!
-  - 'Wow, you really have improved my opinion of your race. You''re not too shabby!
-    Congratulations on adding that rule!
-
-'
+  - "Wow, you really have improved my opinion of your race. You're not too shabby!
+    Congratulations on adding that rule!\r\nNow, you might have noticed a bunch of
+    \"ANY\" values added to the table row when you added a rule."
+  - "This is because we have yet to define an important part of networking called
+    Network protocols.\r\n\r\nProtocols are basically a set of rules that determine
+    how a packet may be structured, or how the communication will be established.\r\n"
+  - "An example of a protocol is the Transmission Control Protocol, or TCP.\r\n\r\nWhen
+    a computer wants to send a message to another computer, it breaks the message
+    into packets.\r\nThese packets have to be reassembled properly to reform the message
+    once the receipient computer recieves it."
+  - "TCP ensures this by numbering each packet to ensure the same order.\r\n For every
+    packet that the reciever gets, it notifies the sending computer it got the packet
+    through another packet called 'Acknowledgment'\r\n Using this Acknowledgment,
+    the sending computer knows when the packet it sent got lost, so it sends another
+    copy."
+  - " In this way, TCP ensures all packets are assembled in order without any holes.\r\n
+    Now let us test out this protocol in a practical scenario.\nThis time, we will
+    use the command \n         iptables -A <INPUTorOUTPUTtable> -s <someIPAddress>
+    -p tcp -j <ACCEPTorDROP>\n\nThe protocol is specified with the '-p' parameter.
+    Use it in the next level to allow ONLY TCP traffic to Alice, and out of Alice's
+    computer. Make sure to use the default policy again."
 --- !u!1 &1728306836
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,6 +33,9 @@ public class LevelWinner : MonoBehaviour {
     public string[] hintText;
     public GameObject bobPacketLevel2;
     public GameObject charliePacketLevel2;
+    public GameObject bobPacketLevel3;
+    public GameObject charliePacketLevel3;
+    public GameObject alicePacketLevel3;
 
 
     // Use this for initialization
@@ -78,6 +81,14 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_3;
+        SceneManager.LoadScene(0);
+    }
+
+    IEnumerator loadLevel4Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_4;
         SceneManager.LoadScene(0);
     }
 
@@ -149,6 +160,90 @@ public class LevelWinner : MonoBehaviour {
             }
 
 
+
+        }
+        if (levelNumber == 3)
+        {
+            //Need to ONLY ALLOW TCP traffic to and from Alice's computer
+            //Can be done in multiple ways
+            //Set default to DROP in both, then iptables -A INPUT -s <IP> -p tcp -j ACCEPT for both IP addresses, and also for the OUTPUT table
+            //Or you could have a acceptance of TCP for both IP on both tables, and the last rule can be a drop on all
+
+            //Way 1:
+            //ACCEPT 122.15.43.22 ANY ANY tcp in OUTPUT,
+            String winningRule3 = "ACCEPT 122.15.43.22 ANY ANY tcp"; //Should be in OUTPUT
+            String winningRule1 = "ACCEPT 192.11.76.5 ANY ANY tcp";
+            String winningRule2 = "ACCEPT 192.168.1.33 ANY ANY tcp"; //Both rules just needed in INPUT table
+            String dropOnAllRule = "DROP ANY ANY ANY ANY";
+            //This one also needs default policy to be DROP
+            foreach (string rule in inputTableRules)
+            {
+                Debug.Log(rule);
+            }
+            foreach (string rule in outputTableRules)
+            {
+                Debug.Log("- " + rule);
+            }
+            Debug.Log(inputTableRules.Contains(winningRule1));
+            Debug.Log(outputTableRules.Contains(winningRule2));
+            Debug.Log(outputTableRules.Contains(winningRule1));
+            Debug.Log(inputTableRules.Contains(winningRule2));
+
+
+            if (inputTableRules.Contains(winningRule1)  && outputTableRules.Contains(winningRule3) &&inputTableRules.Contains(winningRule2) && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
+            {
+                Debug.Log("You won!");
+                alicePacketLevel3.SetActive(true);
+                bobPacketLevel3.SetActive(true);
+                charliePacketLevel3.SetActive(true);
+                alicePacketLevel3.GetComponent<Animation>().Play();
+                charliePacketLevel3.GetComponent<Animation>().Play();
+                bobPacketLevel3.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel4Tutorial());
+            }
+            //Way 2:
+            else if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(winningRule2) && outputTableRules.Contains(winningRule1) && inputTableRules.Contains(winningRule2) && inputTableRules.Contains(dropOnAllRule) && outputTableRules.Contains(dropOnAllRule))
+            {
+                Debug.Log("You won!");
+                alicePacketLevel3.SetActive(true);
+                bobPacketLevel3.SetActive(true);
+                charliePacketLevel3.SetActive(true);
+                alicePacketLevel3.GetComponent<Animation>().Play();
+                charliePacketLevel3.GetComponent<Animation>().Play();
+                bobPacketLevel3.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel4Tutorial());
+            }
+            else
+            {
+                Debug.Log("You Lose");
+                ShowLosingPanel();
+            }
+
+
+        }
+        if (levelNumber == 4)
+        {
+            //NEED TO DO ; _ ;
+
+        }
+        if (levelNumber == 5)
+        {
+            //NEED TO DO ; _ ;
+
+        }
+        if (levelNumber == 6)
+        {
+            //NEED TO DO ; _ ;
+
+        }
+        if (levelNumber == 7)
+        {
+            //NEED TO DO ; _ ;
+
+        }
+        if (levelNumber == 8)
+        {
+            //NEED TO DO ; _ ;
 
         }
     }
@@ -234,6 +329,43 @@ public class LevelWinner : MonoBehaviour {
 
 
             }
+            else if (commandsParse[2] == "OUTPUT")
+            {
+                string table = "INPUT";
+                string protocol = "ANY";
+                for (int i = 0; i < commandsParse.Length; i++)
+                {
+                    if (commandsParse[i] == "-p")
+                    {
+                        protocol = commandsParse[i + 1];
+                        break;
+                    }
+                }
+                string dport = "ANY";
+                for (int i = 0; i < commandsParse.Length; i++)
+                {
+                    if (commandsParse[i] == "--dport")
+                    {
+                        dport = commandsParse[i + 1];
+                        break;
+                    }
+                }
+                string sourceIP = "ANY";
+                for (int i = 0; i < commandsParse.Length; i++)
+                {
+                    if (commandsParse[i] == "-s")
+                    {
+                        sourceIP = commandsParse[i + 1];
+                    }
+                }
+                string acceptOrDrop = commandsParse[commandsParse.Length - 1];
+                string sourcePort = dport;
+                string destinationIP = "ANY";
+
+                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + protocol;
+                addOutputRule(rule);
+
+            }
         }
     }
 
@@ -302,9 +434,16 @@ public class LevelWinner : MonoBehaviour {
             textMesh.font = textMeshFont;
             textMesh.fontSize = 20.52f;
             textMesh.text = rule[i];
+            textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
         }
 
     }
 
 
 }
+
+
+
+//
+//
+//

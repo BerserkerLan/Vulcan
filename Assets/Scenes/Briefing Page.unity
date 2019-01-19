@@ -1497,8 +1497,42 @@ MonoBehaviour:
     Now let us test out this protocol in a practical scenario.\nThis time, we will
     use the command \n         iptables -A <INPUTorOUTPUTtable> -s <someIPAddress>
     -p tcp -j <ACCEPTorDROP>\n\nThe protocol is specified with the '-p' parameter.
-    Use it in the next level to allow ONLY TCP traffic to Alice, and out of Alice's
-    computer. Make sure to use the default policy again."
+    Use it in the next level to allow ONLY TCP traffic into and out of Alice's Computer.
+    Make sure to use the default policy again."
+  - 'I think I wouldn''t mind working with humans like you! You''re not too bad! You
+    might have noticed that Charlie sent a packet with something called the UDP protocol.
+
+
+'
+  - 'The UDP protocol is useful when you want your packet to be sent and recieved
+    quickly, at the expense at the loss of some packets.
+
+    This is the case when you stream a video online, where some missing frames can
+    go unnnoticed, and hence don''t matter too much.'
+  - TCP and UDP are big protocols, and provide some features that are used by higher
+    level protocols, much like the C language provides functionality for languages
+    like Java or Python.
+  - 'One of the protocol that uses TCP is called the HyperText Transfer Protocol,
+    or HTTP.
+
+    You can find this at the front of most URL''s. This is because its mainly used
+    for websites.'
+  - It sends the webpages in its protocol using TCP. There are other protocols that
+    use TCP that will be discussed later. These protocols are called application protocols.
+  - 'Just like an IP address identifies a different computer, different application
+    protocols are identified by something called a Port Number.
+
+
+    The Port number for HTTP is 80.'
+  - "Lets control some HTTP traffic using firewalls. An example command to block incoming
+    traffic from 192.11.32.12 that uses the HTTP protocol would be:\n\n  iptables
+    -A INPUT -p tcp --dport 80 -s 192.11.32.12  -j DROP \n\nIn case you do not remember
+    port numbers, you can even specify http instead of 80 after --dport.\n"
+  - 'Now, to proceed to the level.
+
+    To win this level, allow all traffic EXCEPT any HTTP traffic. Remember, when you
+    do no specify something like an IP address, it defaults to ALL IP Addresses. Good
+    Luck!'
 --- !u!1 &1728306836
 GameObject:
   m_ObjectHideFlags: 0

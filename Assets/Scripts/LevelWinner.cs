@@ -36,6 +36,10 @@ public class LevelWinner : MonoBehaviour {
     public GameObject bobPacketLevel3;
     public GameObject charliePacketLevel3;
     public GameObject alicePacketLevel3;
+    public GameObject bobPacketLevel4;
+    public GameObject charliePacketLevel4;
+    public GameObject alicePacketLevel4;
+
 
 
     // Use this for initialization
@@ -141,7 +145,7 @@ public class LevelWinner : MonoBehaviour {
         {
             //Need Alice to allow communication from BOB only, and not charlie, so iptables -A INPUT -s 192.11.76.5 -j DROP is all thats needed
             //In the array, it'll be listed as "DROP 192.11.76.5 ANY ANY ANY" in the INPUT table 
-            string winningRule = "DROP 192.11.76.5 ANY ANY ANY";
+            string winningRule = "DROP 192.11.76.5 ANY ANY ANY ANY";
             if (inputTableRules.Contains(winningRule))
             {
                 Debug.Log("You win boi!");
@@ -171,10 +175,10 @@ public class LevelWinner : MonoBehaviour {
 
             //Way 1:
             //ACCEPT 122.15.43.22 ANY ANY tcp in OUTPUT,
-            String winningRule3 = "ACCEPT 122.15.43.22 ANY ANY tcp"; //Should be in OUTPUT
-            String winningRule1 = "ACCEPT 192.11.76.5 ANY ANY tcp";
-            String winningRule2 = "ACCEPT 192.168.1.33 ANY ANY tcp"; //Both rules just needed in INPUT table
-            String dropOnAllRule = "DROP ANY ANY ANY ANY";
+            String winningRule3 = "ACCEPT 122.15.43.22 ANY ANY ANY tcp"; //Should be in OUTPUT
+            String winningRule1 = "ACCEPT 192.11.76.5 ANY ANY ANY tcp";
+            String winningRule2 = "ACCEPT 192.168.1.33 ANY ANY ANY tcp"; //Both rules just needed in INPUT table
+            String dropOnAllRule = "DROP ANY ANY ANY ANY ANY";
             //This one also needs default policy to be DROP
             foreach (string rule in inputTableRules)
             {
@@ -223,6 +227,10 @@ public class LevelWinner : MonoBehaviour {
         }
         if (levelNumber == 4)
         {
+            //To win, have to block ALL HTTP TRAFFIC INTO AND OUT OF THE FIREWALL
+            //Can be done in two ways
+            // Way 1 : They simple do this rule on both the INPUT and OUTPUT table "DROP ANY http ANY tcp" i.e iptables -A <tableName> --dport http -p tcp -j DROP
+
             //NEED TO DO ; _ ;
 
         }
@@ -320,10 +328,11 @@ public class LevelWinner : MonoBehaviour {
                     }
                 }
                 string acceptOrDrop = commandsParse[commandsParse.Length - 1];
-                string sourcePort = dport;
+                string sourcePort = "ANY";
                 string destinationIP = "ANY";
 
-                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + protocol;
+                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport + " " + protocol;
+
                 addInputRule(rule);
                 
 
@@ -359,10 +368,10 @@ public class LevelWinner : MonoBehaviour {
                     }
                 }
                 string acceptOrDrop = commandsParse[commandsParse.Length - 1];
-                string sourcePort = dport;
+                string sourcePort = "ANY";
                 string destinationIP = "ANY";
 
-                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + protocol;
+                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport  + " "+ protocol;
                 addOutputRule(rule);
 
             }

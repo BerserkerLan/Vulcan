@@ -45,7 +45,7 @@ public class BreifingTextControl : MonoBehaviour {
         }
         if (state == TutorialState.tutorial_4)
         {
-            levelStartIndex = 25;
+            levelStartIndex = 28;
             currentTutorialIndex = 20;
         }
         StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));

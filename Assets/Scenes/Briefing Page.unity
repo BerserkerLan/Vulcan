@@ -1528,6 +1528,32 @@ MonoBehaviour:
     SSH runs on port 22.\nLets go to the next level now. For this level, allow Charlie
     to SSH into Alice's computer, and drop anything else. Remember to use the hint
     if you've forgotten the syntax!\n"
+  - "While we've talked about TCP, lets talk about another big protocol called the
+    User Datagram Protocol (UDP).\r\nUDP is faster than TCP, as TCP checks for errors
+    in the packets e.g. if a packet gets lost, TCP requests that the packet be sent
+    again, while UDP just ignores it."
+  - "UDP is used over TCP in areas where time is of the utmost importance in connections.
+    This is often used in real time multiplayer games, or in online voice calls, where
+    some loss of packets can go unnoticed, and the main goal is to ensure quick transmission
+    of data.\r\n"
+  - "Another thing about UDP is that it does not really preserve ordering of data.
+    For instance, if Charlie sends Alice a message A, and then sends a message B shortly
+    after that, Alice might receive message B before message A.\r\nThis order is essentially
+    unpredictable."
+  - "Lets make some simple firewall rules using UDP. For this level, Block HTTP traffic
+    from Bob to Alice, and vice versa (both chains). Also, allow UDP traffic from
+    Charlie to Alice only (one chain). \r\n"
+  - "In case you're wondering what is meant by chains, what we have seen as the INPUT
+    and OUTPUT tables so far are actually the INPUT and OUTPUT chain. They are called
+    chains due to the fact that rules are read in order i.e. from top to bottom. We
+    will go more into detail about that later.\r\nLet us now proceed to the level.\n"
+  - Level 7 start
+  - '
+
+'
+  - '
+
+'
 --- !u!1 &1728306836
 GameObject:
   m_ObjectHideFlags: 0

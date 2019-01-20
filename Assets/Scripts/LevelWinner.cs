@@ -520,10 +520,12 @@ public class LevelWinner : MonoBehaviour {
             childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
             textMesh = null;
             textMesh = childRule.AddComponent<TextMeshProUGUI>();
+            textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+            Debug.Log(textMesh.alignment);
             textMesh.font = textMeshFont;
             textMesh.fontSize = 20.52f;
             textMesh.text = rule[i];
-            textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+            
         }
 
     }

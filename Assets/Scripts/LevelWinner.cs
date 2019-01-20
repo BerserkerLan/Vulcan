@@ -39,6 +39,9 @@ public class LevelWinner : MonoBehaviour {
     public GameObject bobPacketLevel4;
     public GameObject charliePacketLevel4;
     public GameObject alicePacketLevel4;
+    public GameObject bobPacketLevel5;
+    public GameObject charliePacketLevel5;
+    public GameObject alicePacketLevel5;
 
 
 
@@ -80,6 +83,15 @@ public class LevelWinner : MonoBehaviour {
         losingPanel.SetActive(false);
 
     }
+
+    IEnumerator loadLevel5Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_5;
+        SceneManager.LoadScene(0);
+    }
+
     IEnumerator loadLevel3Tutorial()
     {
         yield return new WaitForSeconds(6);
@@ -101,6 +113,14 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_2;
+        SceneManager.LoadScene(0);
+    }
+
+    IEnumerator loadLevel6Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_6;
         SceneManager.LoadScene(0);
     }
 
@@ -228,15 +248,63 @@ public class LevelWinner : MonoBehaviour {
         if (levelNumber == 4)
         {
             //To win, have to block ALL HTTP TRAFFIC INTO AND OUT OF THE FIREWALL
-            //Can be done in two ways
-            // Way 1 : They simple do this rule on both the INPUT and OUTPUT table "DROP ANY http ANY tcp" i.e iptables -A <tableName> --dport http -p tcp -j DROP
+            //Can be done in two ways, but I'm just going to allow one way
+            // Way 1 : They simple do this rule on both the INPUT and OUTPUT table "DROP ANY ANY ANY http tcp" i.e iptables -A <tableName> --dport http -p tcp -j DROP
 
-            //NEED TO DO ; _ ;
+            string winningRule1 = "DROP ANY ANY ANY http tcp";
+
+            if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(winningRule1))
+            {
+                Debug.Log("You won!");
+                alicePacketLevel4.SetActive(true);
+                bobPacketLevel4.SetActive(true);
+                charliePacketLevel4.SetActive(true);
+                alicePacketLevel4.GetComponent<Animation>().Play();
+                bobPacketLevel4.GetComponent<Animation>().Play();
+                charliePacketLevel4.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel5Tutorial());
+            }
+            else
+            {
+                ShowLosingPanel();
+            }
+
+         
 
         }
         if (levelNumber == 5)
         {
-            //NEED TO DO ; _ ;
+            //To win, have to Allow charlie to SSH into Alice, and DROP everything else
+            //Two ways: set default policy to DROP, and Allow SSH from Charlie to Alice, or Allow SSH and then add a rule to drop it
+            //Way 1 : Allow SSH in both tables from Charlie to Alice and vice versa, and then default drop "ACCEPT 192.11.76.5 ssh ANY ssh tcp" || "ACCEPT 192.11.76.5 ssh ANY ssh tcp"
+
+            bool cond1 = (outputTableRules.Contains("ACCEPT 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("ACCEPT 192.11.76.5 22 ANY 22 tcp"));
+            bool cond2 = (inputTableRules.Contains("ACCEPT 192.11.76.5 ssh ANY ssh tcp") || inputTableRules.Contains("ACCEPT 122.15.43.22 22 ANY 22 tcp"));
+            Debug.Log(cond1);
+            Debug.Log(cond2);
+            Debug.Log(inputTableRules);
+            Debug.Log(outputTableRules);
+
+            if (cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
+            {
+                Debug.Log("You won!");
+                alicePacketLevel5.SetActive(true);
+                bobPacketLevel5.SetActive(true);
+                charliePacketLevel5.SetActive(true);
+                alicePacketLevel5.GetComponent<Animation>().Play();
+                bobPacketLevel5.GetComponent<Animation>().Play();
+                charliePacketLevel5.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel6Tutorial());
+
+            }
+            else if (cond1 && cond2 && inputTableRules.Contains("DROP ANY ANY ANY ANY ANY") && outputTableRules.Contains("DROP ANY ANY ANY ANY ANY"))
+            {
+                Debug.Log("You won!");
+            }
+            else
+            {
+                ShowLosingPanel();
+            }
 
         }
         if (levelNumber == 6)
@@ -300,7 +368,6 @@ public class LevelWinner : MonoBehaviour {
         {
             if (commandsParse[2] == "INPUT")
             {
-                string table = "INPUT";
                 string protocol = "ANY";
                for (int i = 0; i < commandsParse.Length; i++)
                 {
@@ -327,8 +394,15 @@ public class LevelWinner : MonoBehaviour {
                         sourceIP = commandsParse[i + 1];
                     }
                 }
-                string acceptOrDrop = commandsParse[commandsParse.Length - 1];
                 string sourcePort = "ANY";
+                for (int i = 0; i < commandsParse.Length; i++)
+                {
+                    if (commandsParse[i] == "--sport")
+                    {
+                        sourcePort = commandsParse[i + 1];
+                    }
+                }
+                string acceptOrDrop = commandsParse[commandsParse.Length - 1];
                 string destinationIP = "ANY";
 
                 string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport + " " + protocol;
@@ -340,7 +414,6 @@ public class LevelWinner : MonoBehaviour {
             }
             else if (commandsParse[2] == "OUTPUT")
             {
-                string table = "INPUT";
                 string protocol = "ANY";
                 for (int i = 0; i < commandsParse.Length; i++)
                 {
@@ -367,8 +440,15 @@ public class LevelWinner : MonoBehaviour {
                         sourceIP = commandsParse[i + 1];
                     }
                 }
-                string acceptOrDrop = commandsParse[commandsParse.Length - 1];
                 string sourcePort = "ANY";
+                for (int i = 0; i < commandsParse.Length; i++)
+                {
+                    if (commandsParse[i] == "--sport")
+                    {
+                        sourcePort = commandsParse[i + 1];
+                    }
+                }
+                string acceptOrDrop = commandsParse[commandsParse.Length - 1];
                 string destinationIP = "ANY";
 
                 string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport  + " "+ protocol;
@@ -400,7 +480,7 @@ public class LevelWinner : MonoBehaviour {
 
     }
 
-    void addInputRule(string rule_s) //The current rule will have format : "ACCEPTorDROP sourceIP sourcePort destinationIP protocol(destinationPort)"
+    void addInputRule(string rule_s) //The current rule will have format : "RULE(ACCEPT or DROP) SourceIP SourcePort DestinationIP DestinationPort Protocol"
     {
         inputTableRules.Add(rule_s);
         string[] rule = rule_s.Split(' ');
@@ -424,7 +504,7 @@ public class LevelWinner : MonoBehaviour {
     
    }
 
-    void addOutputRule(string rule_s) //The current rule will have format : "table(INPUT) Protocol(any if none) dport(any if none) sourceIP AcceptOrDrop"
+    void addOutputRule(string rule_s) //The current rule will have format : "RULE(ACCEPT or DROP) SourceIP SourcePort DestinationIP DestinationPort Protocol"
     {
         outputTableRules.Add(rule_s);
         string[] rule = rule_s.Split(' ');

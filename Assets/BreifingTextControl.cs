@@ -9,7 +9,7 @@ public class BreifingTextControl : MonoBehaviour {
 
    public enum TutorialState
     {
-        tutorial_1,tutorial_2, tutorial_3, tutorial_4 ,UItutorial
+        tutorial_1,tutorial_2, tutorial_3, tutorial_4 ,tutorial_5, tutorial_6, tutorial_7, tutorial_8, UItutorial
     }
 
     int currentTutorialIndex;
@@ -45,8 +45,13 @@ public class BreifingTextControl : MonoBehaviour {
         }
         if (state == TutorialState.tutorial_4)
         {
-            levelStartIndex = 28;
+            levelStartIndex = 25;
             currentTutorialIndex = 20;
+        }
+        if (state == TutorialState.tutorial_5)
+        {
+            levelStartIndex = 27;
+            currentTutorialIndex = 25;
         }
         StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
         nextButton.onClick.AddListener(loadNextInstruction);

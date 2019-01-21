@@ -58,6 +58,16 @@ public class BreifingTextControl : MonoBehaviour {
             levelStartIndex = 32;
             currentTutorialIndex = 28;
         }
+        if (state == TutorialState.tutorial_7)
+        {
+            levelStartIndex = 39;
+            currentTutorialIndex = 32;
+        }
+        if (state == TutorialState.tutorial_8)
+        {
+            levelStartIndex = 43;
+            currentTutorialIndex = 39;
+        }
         StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
         nextButton.onClick.AddListener(loadNextInstruction);
         backButton.onClick.AddListener(loadPreviousInstruction);

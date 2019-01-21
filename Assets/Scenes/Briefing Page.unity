@@ -1547,13 +1547,55 @@ MonoBehaviour:
     and OUTPUT tables so far are actually the INPUT and OUTPUT chain. They are called
     chains due to the fact that rules are read in order i.e. from top to bottom. We
     will go more into detail about that later.\r\nLet us now proceed to the level.\n"
-  - Level 7 start
-  - '
+  - 'Great Job! Now I know your inferior human minds cannot retain so much information
+    for so long, so I will do a breif overview.
+
 
 '
-  - '
+  - 'TCP is a big protocol used for a variety of communications. It''s main point
+    is that it retains the order of all the packets, so it will always arrive to a
+    computer in the same order it was sent.
+
+    Another thing is that TCP accounts for missing packets in case one gets lost on
+    the way. It does this by telling the computer that send that packet to send it
+    again. This, however, can make it slow.'
+  - 'That''s where UDP comes in. It does not maintain the order of packets, nor does
+    it ensure that there are no packets lost. But it is fast, and used to things like
+    Video Streaming or Multiplayer Gaming, where speed is more important.
+
 
 '
+  - 'HTTP and SSH mostly use TCP to ensure a good communication.
+
+
+    HTTP is used for web browsing, whenever you''re loading a web page, HTTP is used
+    to send over the HTML data.
+
+
+    SSH is used for logging in to a remote computer over the internet.'
+  - 'Firewall rules are stored in tables known as chains. They are called chains because
+    they are read in order.
+
+
+    The two chains we have gone over are the INPUT and OUTPUT chains. Now, we know
+    how to add a command to each table. Lets make this level a bit more complicated!'
+  - "For this level, you need to do three things:\n\n1) Allow Bob to SSH into Alice's
+    computer (Remember the two way rule)\n\n2) Allow TCP traffic from Charlies computer
+    through the firewall, and traffic going into Charlies computer through the firewall.\n\n3)
+    Set the default policy for both chains to DROP.\n\nThe order you do these matter!\t"
+  - 'If you''ve forgotten, don''t worry. Press the hint button to remind you!
+
+
+    Lets Play!'
+  - 'Great. It seems you''ve become a master at this! I guess theres only one thing
+    left to teach you : how to delete a rule'
+  - Rules are numbered from 1 onwards from top to bottom. This number is called their
+    line number. You can use the rules line number to delete the rule.
+  - "The command to do this is :\n\n <color=#25DD1A>iptables -D <INPUTorOUTPUT> <lineNumber>
+    </color>\n\nNormally, the table would show the line numbers, but I am evil, so
+    you shall count them. Mwaahahahaahah!"
+  - In this level. simply delete the rule you think should be deleted so that Alice
+    can send HTTP packets to Charlie. Only one rule needs to be deleted. Good luck!
 --- !u!1 &1728306836
 GameObject:
   m_ObjectHideFlags: 0

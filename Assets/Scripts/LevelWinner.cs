@@ -42,7 +42,12 @@ public class LevelWinner : MonoBehaviour {
     public GameObject bobPacketLevel5;
     public GameObject charliePacketLevel5;
     public GameObject alicePacketLevel5;
-
+    public GameObject bobPacketLevel6;
+    public GameObject charliePacketLevel6;
+    public GameObject alicePacketLevel6;
+    public GameObject bobPacketLevel7;
+    public GameObject charliePacketLevel7;
+    public GameObject alicePacketLevel7;
 
 
     // Use this for initialization
@@ -123,6 +128,21 @@ public class LevelWinner : MonoBehaviour {
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_6;
         SceneManager.LoadScene(0);
     }
+    IEnumerator loadLevel7Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_7;
+        SceneManager.LoadScene(0);
+    }
+    IEnumerator loadLevel8Tutorial()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_8;
+        SceneManager.LoadScene(0);
+    }
+
 
     void showOrHideHint()
     {
@@ -309,12 +329,61 @@ public class LevelWinner : MonoBehaviour {
         }
         if (levelNumber == 6)
         {
-            //NEED TO DO ; _ ;
+            //To win, Block HTTP traffic from Alice to Bob and vice versa, and Allow Charlie to send UDP packets to Alice only, no need to change anything else
+            //Rules needed: "DROP 192.168.1.33 80 ANY 80 tcp" in INPUT, "DROP 122.15.43.22 80 ANY 80 tcp" in OUTPUT, and "ACCEPT 192.11.76.5 ANY ANY ANY udp" in INPUT
+
+            bool cond1 = inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY udp") && inputTableRules.Contains("DROP 192.168.1.33 80 ANY 80 tcp");
+            bool cond2 = outputTableRules.Contains("DROP 122.15.43.22 80 ANY 80 tcp");
+
+            if (cond1 && cond2)
+            {
+                Debug.Log("You won!");
+                alicePacketLevel6.SetActive(true);
+                bobPacketLevel6.SetActive(true);
+                charliePacketLevel6.SetActive(true);
+                alicePacketLevel6.GetComponent<Animation>().Play();
+                bobPacketLevel6.GetComponent<Animation>().Play();
+                charliePacketLevel6.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel7Tutorial());
+            }
+            else
+            {
+                ShowLosingPanel();
+            }
 
         }
         if (levelNumber == 7)
         {
-            //NEED TO DO ; _ ;
+            //NEED TO ADD ORDERING MATTER IN THIS
+            //For this level, you need to do three things:
+
+            //1) Don't allow Bob to SSH into Alice's computer (Remember the two way rule)
+            //Need rule "ACCEPT 192.168.1.33 ssh ANY ssh tcp" in INPUT, "ACCEPT 122.15.43.22 ssh ANY ssh tcp" in OUTPUT
+
+            //2) Allow TCP traffic coming from Charlies computer through the firewall from the outside, and TCP traffic going from Alice computer through the firewall from the inside.
+            //Need rule "ACCEPT 122.15.43.22 ANY ANY ANY tcp" in OUTPUT, "ACCEPT 192.11.76.5 ANY ANY ANY tcp" in INPUT
+    
+            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("DROP 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("DROP 122.15.43.22 22 ANY 22 tcp"));
+            bool cond2 = (inputTableRules.Contains("ACCEPT 192.168.1.33 ssh ANY ssh tcp") || inputTableRules.Contains("ACCEPT 192.168.1.33 22 ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
+            
+            if (cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
+            {
+                Debug.Log("You won!");
+                alicePacketLevel7.SetActive(true);
+                bobPacketLevel7.SetActive(true);
+                charliePacketLevel7.SetActive(true);
+                alicePacketLevel7.GetComponent<Animation>().Play();
+                bobPacketLevel7.GetComponent<Animation>().Play();
+                charliePacketLevel7.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel8Tutorial());
+            }
+            else
+            {
+                ShowLosingPanel();
+            }
+
+
+
 
         }
         if (levelNumber == 8)
@@ -532,9 +601,3 @@ public class LevelWinner : MonoBehaviour {
 
 
 }
-
-
-
-//
-//
-//

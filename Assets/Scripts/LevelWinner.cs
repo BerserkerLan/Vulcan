@@ -48,6 +48,8 @@ public class LevelWinner : MonoBehaviour {
     public GameObject bobPacketLevel7;
     public GameObject charliePacketLevel7;
     public GameObject alicePacketLevel7;
+    public GameObject bobPacketLevel8;
+    public GameObject alicePacketLevel8;
 
 
     // Use this for initialization
@@ -64,6 +66,16 @@ public class LevelWinner : MonoBehaviour {
         if (levelNumber == 1)
         {
             showUITutorial();
+        }
+
+        //To remove later :
+        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_8;
+
+        if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_8)
+        {
+            addOutputRule("DROP 122.15.43.22 ANY ANY ANY tcp");
+            addOutputRule("DROP 122.15.43.22 ssh ANY ssh tcp");
+            addInputRule("DROP 192.168.1.33 http ANY http tcp");
         }
         networkDiagrams[levelNumber - 1].SetActive(true);
         hintBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
@@ -388,7 +400,23 @@ public class LevelWinner : MonoBehaviour {
         }
         if (levelNumber == 8)
         {
-            //NEED TO DO ; _ ;
+            //Just need to delete the rule "DROP 122.15.43.22 ANY ANY ANY tcp" from output table
+
+        if (!outputTableRules.Contains("DROP 122.15.43.22 ANY ANY ANY tcp"))
+            {
+                Debug.Log("You won!");
+                alicePacketLevel7.SetActive(true);
+                bobPacketLevel7.SetActive(true);
+                charliePacketLevel7.SetActive(true);
+                alicePacketLevel7.GetComponent<Animation>().Play();
+                bobPacketLevel7.GetComponent<Animation>().Play();
+                charliePacketLevel7.GetComponent<Animation>().Play();
+                StartCoroutine(loadLevel8Tutorial());
+            }
+        else
+            {
+                ShowLosingPanel();
+            }
 
         }
     }
@@ -419,7 +447,7 @@ public class LevelWinner : MonoBehaviour {
                 }
                 else
                 {
-                    
+
                     if (table == "INPUT")
                     {
                         inputDefaultRule = policy;
@@ -438,7 +466,7 @@ public class LevelWinner : MonoBehaviour {
             if (commandsParse[2] == "INPUT")
             {
                 string protocol = "ANY";
-               for (int i = 0; i < commandsParse.Length; i++)
+                for (int i = 0; i < commandsParse.Length; i++)
                 {
                     if (commandsParse[i] == "-p")
                     {
@@ -477,7 +505,7 @@ public class LevelWinner : MonoBehaviour {
                 string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport + " " + protocol;
 
                 addInputRule(rule);
-                
+
 
 
             }
@@ -520,9 +548,70 @@ public class LevelWinner : MonoBehaviour {
                 string acceptOrDrop = commandsParse[commandsParse.Length - 1];
                 string destinationIP = "ANY";
 
-                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport  + " "+ protocol;
+                string rule = acceptOrDrop + " " + sourceIP + " " + sourcePort + " " + destinationIP + " " + dport + " " + protocol;
                 addOutputRule(rule);
 
+            }
+        }
+        else if (commandsParse[1] == "-D")
+            Debug.Log("Deleting rule detected");
+        {
+            string table = "";
+            if (commandsParse[2] == "INPUT" || commandsParse[2] == "OUTPUT")
+            {
+                table = commandsParse[2];
+            }
+            string lineNumber = "";
+        
+            if (commandsParse.Length > 2)
+            {
+                lineNumber = commandsParse[3];
+            }
+            Debug.Log(table);
+            Debug.Log("LINE NUMBER:" + lineNumber);
+            if (table != "" && lineNumber != "" && lineNumber != "0")
+            {
+                if (table == "INPUT")
+                {
+                    int line = Convert.ToInt32(lineNumber);
+                    Debug.Log("line after conversion:" + line);
+                    try
+                    {
+                        inputTableRules.RemoveAt(line - 1);
+                        Debug.Log("Child Count: " + inputTableLayout.GetComponent<Transform>().childCount);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 2)).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 3)).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 4)).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 5)).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 6)).gameObject);
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+                else if (table == "OUTPUT")
+                {
+                    int line = Convert.ToInt32(lineNumber);
+                    Debug.Log("line after conversion:" + line);
+                    try
+                    {
+                        outputTableRules.RemoveAt(line - 1);
+                        Debug.Log("Child Count: " + outputTableLayout.GetComponent<Transform>().GetChild(13));
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 2)).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 3)).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 4)).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 5)).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 6)).gameObject);
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
         }
     }

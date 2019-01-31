@@ -1,0 +1,15 @@
+Roman Wall (Just make like a small section of a wall and ill keep repeating it, also the view is like from the top, similar to AOE type view)
+10 Roman Guards (They can be the same)
+So two other civilizations, Greece and Spain
+for these two, need 5 different caravans each
+Caravan types:
+HTTP on port 80
+SMTP (Simple Mail Transfer Protocol) on port 25
+DNS (Domain name system) on port 53
+FTP on port 21
+SSH on port 22
+These caravans have to be different colours depending on the protocol type, I guess blue for HTTP, yellow for SMTP etc
+Also, on the wall will be 5 gates, each gate has two roman guards, and each gate is essentially a port e.g. port 21,22
+so need the gates too
+
+Oh, also roman caravans , things will go out of rome too

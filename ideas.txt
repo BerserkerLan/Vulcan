@@ -1,0 +1,20 @@
+Basic theme : Set in roman times, the roman firewall won't let the viruses through, can allow resources through depending on what it is e.g. gold, food e.t.c,
+		but not disguised stuff. 
+
+Name : Vulcan - Firewall Administration game
+
+Each faction will have their own IP address, requests etc.
+Restrictions on what you can trade and all.
+
+Five gates for each port. The ports/gates will be : 80, 25, 53, 21 and 22.
+
+Caravans will go in and out of the gate, the ones who guard the gate are roman.
+
+The other two civilizations are greece and spain.
+
+Caravan types:
+HTTP on port 80
+SMTP (Simple Mail Transfer Protocol) on port 25
+DNS (Domain name system) on port 53
+FTP on port 21
+SSH on port 22

@@ -1,0 +1,12 @@
+- IP tables rules which include
+	> INPUT - packets into your server
+	> OUTPUT - packets out of your server
+	> FORWARD - deal with traffic that are supposed to go to other servers and are not created by you
+- Information about the Protocols on different ports, which are:
+	> HTTP - 80
+	> SMTP - 25
+	> DNS - 21
+	> SSH - 22
+- Rules are read in order and matched : If a rule accepts SSH packets , and below it drops the packets, it will still accept all packets while ignoring this one
+
+	

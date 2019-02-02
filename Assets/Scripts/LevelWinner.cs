@@ -19,6 +19,7 @@ public class LevelWinner : MonoBehaviour {
     public Button playButton;
     public Button runTerminalCommandButton;
     public Button inputTableButton, outputTableButton;
+    public Button resetButton;
     public TMP_InputField terminalInput;
     public TMP_Text inputDefault, outputDefault;
     public GridLayoutGroup inputTableLayout, outputTableLayout;
@@ -26,6 +27,7 @@ public class LevelWinner : MonoBehaviour {
     public Packet bobPacket, alicePacket;
     public Button hintButton;
     public GameObject hintBox;
+    public GameObject hintTextBox;
     public GameObject UITutorial;
     public GameObject[] networkDiagrams;
     public GameObject losingPanel;
@@ -63,13 +65,13 @@ public class LevelWinner : MonoBehaviour {
         inputTableButton.onClick.AddListener(showInputTable);
         outputTableButton.onClick.AddListener(showOutputTable);
         hintButton.onClick.AddListener(showOrHideHint);
+        resetButton.onClick.AddListener(resetTableAndRules);
         if (levelNumber == 1)
         {
             showUITutorial();
         }
 
-        //To remove later :
-        BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_8;
+      
 
         if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_8)
         {
@@ -78,8 +80,221 @@ public class LevelWinner : MonoBehaviour {
             addInputRule("DROP 192.168.1.33 http ANY http tcp");
         }
         networkDiagrams[levelNumber - 1].SetActive(true);
-        hintBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
+        hintTextBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
         hintBox.SetActive(false);
+
+    }
+
+    void resetTableAndRules()
+    {
+        inputTableRules.Clear();
+        outputTableRules.Clear();
+        Transform inputTransform = inputTableLayout.GetComponent<Transform>();
+        Transform outputTransform = outputTableLayout.GetComponent<Transform>();
+        foreach (Transform child in inputTransform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in outputTransform)
+        {
+            Destroy(child.gameObject);
+        }
+        //Reset the labels on top of table for first, OUTPUT
+        showOutputTable();
+        GameObject childRule = null;
+        childRule = new GameObject("Access Rule");
+        RectTransform childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(outputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        TextMeshProUGUI textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+        Color textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00",out textCol);
+        textMesh.color = textCol;
+        textMesh.text = "Access Rule";
+
+         childRule = null;
+        childRule = new GameObject("Source IP");
+         childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(outputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.text = "Source IP";
+
+         childRule = null;
+        childRule = new GameObject("Source Port");
+         childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(outputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+         textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.text = "Source Port";
+
+         childRule = null;
+        childRule = new GameObject("Destination IP");
+         childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(outputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+         textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Destination IP";
+
+        childRule = null;
+        childRule = new GameObject("Destination Port");
+        childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(outputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Destination Port";
+
+         childRule = null;
+        childRule = new GameObject("Protocol");
+         childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(outputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+         textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Protocol";
+
+        //Now INPUT
+        showInputTable();
+         childRule = null;
+        childRule = new GameObject("Access Rule");
+         childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(inputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Access Rule";
+
+        childRule = null;
+        childRule = new GameObject("Source IP");
+        childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(inputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Source IP";
+
+        childRule = null;
+        childRule = new GameObject("Source Port");
+        childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(inputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Source Port";
+
+        childRule = null;
+        childRule = new GameObject("Destination IP");
+        childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(inputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.text = "Destination IP";
+
+        childRule = null;
+        childRule = new GameObject("Destination Port");
+        childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(inputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.text = "Destination Port";
+
+        childRule = null;
+        childRule = new GameObject("Protocol");
+        childTrans = childRule.AddComponent<RectTransform>();
+        childTrans.SetParent(inputTableLayout.transform);
+        childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = childRule.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+         textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.fontSize = 20.52f;
+        textMesh.text = "Protocol";
+       
 
     }
 
@@ -106,7 +321,7 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_5;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     IEnumerator loadLevel3Tutorial()
@@ -114,7 +329,7 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_3;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     IEnumerator loadLevel4Tutorial()
@@ -122,7 +337,7 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_4;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     IEnumerator loadLevel2Tutorial()
@@ -130,7 +345,7 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_2;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     IEnumerator loadLevel6Tutorial()
@@ -138,23 +353,28 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_6;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     IEnumerator loadLevel7Tutorial()
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_7;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     IEnumerator loadLevel8Tutorial()
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_8;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
-
+    IEnumerator loadWinningScene()
+    {
+        yield return new WaitForSeconds(6);
+        BreifingTextControl.changedTutorialState = true;
+        SceneManager.LoadScene(3);
+    }
 
     void showOrHideHint()
     {
@@ -170,6 +390,9 @@ public class LevelWinner : MonoBehaviour {
         }
     }
 
+    //Bob: 192.168.1.33
+    //Alice: 122.15.43.22
+    //CHarlie: 192.11.76.5
     void handleLevel()
     {
         if (levelNumber == 1)
@@ -411,7 +634,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel7.GetComponent<Animation>().Play();
                 bobPacketLevel7.GetComponent<Animation>().Play();
                 charliePacketLevel7.GetComponent<Animation>().Play();
-                StartCoroutine(loadLevel8Tutorial());
+                StartCoroutine(loadWinningScene());
             }
         else
             {
@@ -425,7 +648,7 @@ public class LevelWinner : MonoBehaviour {
     {
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_2;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     void runCommand()
@@ -666,6 +889,8 @@ public class LevelWinner : MonoBehaviour {
     {
         outputTableRules.Add(rule_s);
         string[] rule = rule_s.Split(' ');
+
+        showOutputTable();
 
         GameObject childRule;
         TextMeshProUGUI textMesh;

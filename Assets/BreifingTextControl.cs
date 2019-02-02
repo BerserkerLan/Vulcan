@@ -19,6 +19,8 @@ public class BreifingTextControl : MonoBehaviour {
     public TutorialState state;
     public static TutorialState staticTutorialState;
     public static bool changedTutorialState = false;
+    public AudioSource keyboardSound;
+    bool coroutinePlaying;
     
     public int levelStartIndex;
 
@@ -28,10 +30,19 @@ public class BreifingTextControl : MonoBehaviour {
     void Start () {
        
         currentTutorialIndex = 0;
+        levelStartIndex = 9;
+        coroutinePlaying = false;
+        
         if (changedTutorialState)
         {
             state = staticTutorialState;
            
+        }
+        Debug.Log(state);
+        if (state == TutorialState.UItutorial)
+        {
+            currentTutorialIndex = 0;
+            levelStartIndex = 4;
         }
         if (state == TutorialState.tutorial_2)
         {
@@ -72,6 +83,8 @@ public class BreifingTextControl : MonoBehaviour {
         nextButton.onClick.AddListener(loadNextInstruction);
         backButton.onClick.AddListener(loadPreviousInstruction);
         backButton.gameObject.SetActive(false);
+        Debug.Log(levelStartIndex);
+        Debug.Log(currentTutorialIndex);
        
 
     }
@@ -79,32 +92,45 @@ public class BreifingTextControl : MonoBehaviour {
 
     void loadNextInstruction()
     {
-      
-
-        backButton.gameObject.SetActive(true);
-        currentTutorialIndex++;
-        if (state == TutorialState.UItutorial)
+        if (coroutinePlaying)
         {
-            if (currentTutorialIndex == 1)
-            {
-                UIPanel.transform.position = new Vector3(UIPanel.transform.position.x, 2.6f, UIPanel.transform.position.z);
-            }
-        }
-        if (currentTutorialIndex == levelStartIndex)
-        {
-            if (state == TutorialState.UItutorial)
-            {
-                UIPanel.SetActive(false);
-            }
-            else
-            {
-                SceneManager.LoadScene(1);
-            }
+            gameObject.GetComponent<TextMeshProUGUI>().text = tutorialInstructions[currentTutorialIndex];
+            StopAllCoroutines();
+            coroutinePlaying = false;
         }
         else
         {
-            StopAllCoroutines();
-            StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
+
+            backButton.gameObject.SetActive(true);
+            currentTutorialIndex++;
+            Debug.Log(currentTutorialIndex);
+            Debug.Log(levelStartIndex);
+
+            if (state == TutorialState.UItutorial)
+            {
+                if (currentTutorialIndex == 1)
+                {
+                    UIPanel.transform.position = new Vector3(UIPanel.transform.position.x, 2.6f, UIPanel.transform.position.z);
+                }
+            }
+            if (currentTutorialIndex == levelStartIndex)
+            {
+                Debug.Log("Equal Indexes");
+                if (state == TutorialState.UItutorial)
+                {
+                    UIPanel.SetActive(false);
+                }
+                else
+                {
+                    SceneManager.LoadScene(2);
+                }
+            }
+            else
+            {
+
+                StopAllCoroutines();
+                StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
+            }
         }
 
         
@@ -114,6 +140,7 @@ public class BreifingTextControl : MonoBehaviour {
     void loadPreviousInstruction()
     {
         currentTutorialIndex--;
+        Debug.Log(currentTutorialIndex);
         if (currentTutorialIndex == 0)
         {
             backButton.gameObject.SetActive(false);
@@ -121,20 +148,27 @@ public class BreifingTextControl : MonoBehaviour {
         else
         {
             backButton.gameObject.SetActive(true);
+        }
+        
+        
             StopAllCoroutines();
             StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
-        }
+        
   
        
     }
 
     IEnumerator AnimateText(string strComplete)
     {
+        coroutinePlaying = true;
         gameObject.GetComponent<TextMeshProUGUI>().text = "";
+
         foreach (char letter in strComplete.ToCharArray())
         {
             gameObject.GetComponent<TextMeshProUGUI>().text += letter;
             yield return null;
+         
         }
+        coroutinePlaying = false;
     }
 }

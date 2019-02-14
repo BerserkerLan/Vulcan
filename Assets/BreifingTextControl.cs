@@ -20,6 +20,8 @@ public class BreifingTextControl : MonoBehaviour {
     public static TutorialState staticTutorialState;
     public static bool changedTutorialState = false;
     public AudioSource keyboardSound;
+    public TextMeshProUGUI tutNo;
+    int startIndex;
     bool coroutinePlaying;
     
     public int levelStartIndex;
@@ -79,6 +81,13 @@ public class BreifingTextControl : MonoBehaviour {
             levelStartIndex = 43;
             currentTutorialIndex = 39;
         }
+        if (state != TutorialState.UItutorial)
+        {
+            //UIPanel.SetActive(false);
+            tutNo.text = "1/" + (levelStartIndex - currentTutorialIndex);
+        }
+        staticTutorialState = state;
+        startIndex = currentTutorialIndex;
         StartCoroutine(AnimateText(tutorialInstructions[currentTutorialIndex]));
         nextButton.onClick.AddListener(loadNextInstruction);
         backButton.onClick.AddListener(loadPreviousInstruction);
@@ -103,6 +112,10 @@ public class BreifingTextControl : MonoBehaviour {
 
             backButton.gameObject.SetActive(true);
             currentTutorialIndex++;
+            if (state != TutorialState.UItutorial)
+            {
+                tutNo.text = ((currentTutorialIndex + 1) - startIndex) + tutNo.text.Substring(1, tutNo.text.Length - 1);
+            }
             Debug.Log(currentTutorialIndex);
             Debug.Log(levelStartIndex);
 
@@ -141,6 +154,10 @@ public class BreifingTextControl : MonoBehaviour {
     {
         currentTutorialIndex--;
         Debug.Log(currentTutorialIndex);
+        if (state != TutorialState.UItutorial)
+        {
+            tutNo.text = ((currentTutorialIndex + 1) - startIndex) + tutNo.text.Substring(1, tutNo.text.Length - 1);
+        }
         if (currentTutorialIndex == 0)
         {
             backButton.gameObject.SetActive(false);

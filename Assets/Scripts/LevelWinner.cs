@@ -23,6 +23,7 @@ public class LevelWinner : MonoBehaviour {
     public TMP_InputField terminalInput;
     public TMP_Text inputDefault, outputDefault;
     public GridLayoutGroup inputTableLayout, outputTableLayout;
+    public VerticalLayoutGroup inputNumberLayout, outputNumberLayout;
     Color selectedBlueColor, UnselectedBlueColor;
     public Packet bobPacket, alicePacket;
     public Button hintButton;
@@ -31,6 +32,7 @@ public class LevelWinner : MonoBehaviour {
     public GameObject UITutorial;
     public GameObject[] networkDiagrams;
     public GameObject losingPanel;
+    public GameObject winningPanel;
     [TextArea(20,30)]
     public string[] hintText;
     public GameObject bobPacketLevel2;
@@ -53,6 +55,8 @@ public class LevelWinner : MonoBehaviour {
     public GameObject bobPacketLevel8;
     public GameObject alicePacketLevel8;
 
+    int inputIndex, outputIndex;
+
 
     // Use this for initialization
     void Start () {
@@ -62,14 +66,53 @@ public class LevelWinner : MonoBehaviour {
         ColorUtility.TryParseHtmlString("#3F63EC", out UnselectedBlueColor);
         playButton.onClick.AddListener(handleLevel);
         runTerminalCommandButton.onClick.AddListener(runCommand);
+        inputIndex = 0;
+        outputIndex = 0;
         inputTableButton.onClick.AddListener(showInputTable);
         outputTableButton.onClick.AddListener(showOutputTable);
         hintButton.onClick.AddListener(showOrHideHint);
         resetButton.onClick.AddListener(resetTableAndRules);
+        if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_2)
+        {
+            levelNumber = 2;
+        }
+        else if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_3)
+        {
+            levelNumber = 3;
+        }
+        else if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_4)
+        {
+            levelNumber = 4;
+        }
+        else if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_5)
+        {
+            levelNumber = 5;
+        }
+        else if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_6)
+        {
+            levelNumber = 6;
+        }
+        else if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_7)
+        {
+            levelNumber = 7;
+        }
+        else if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_8)
+        {
+            levelNumber = 8;
+        }
+
+
         if (levelNumber == 1)
         {
             showUITutorial();
         }
+        else
+        {
+            hideUITutorial();
+        }
+
+        Debug.Log("Level Number" + levelNumber);
+
 
       
 
@@ -85,28 +128,136 @@ public class LevelWinner : MonoBehaviour {
 
     }
 
+    void deleteIndexByLineNumberInput(int line)
+    {
+            if (inputIndex == 0)
+            {
+                return;
+            }
+            if (inputIndex == 1)
+            {
+                Debug.Log("Deleting Input");
+                foreach (Transform childr in inputNumberLayout.transform)
+                {
+                if (childr.gameObject.name != "#")
+                {
+                    Destroy(childr.gameObject);
+                }
+                }
+                inputIndex--;
+            }
+            else
+            {
+                inputIndex--;
+                Destroy(inputNumberLayout.GetComponent<Transform>().GetChild((line)).gameObject);
+                Debug.Log("Deleting Input again");
+                foreach (Transform childr in inputNumberLayout.transform)
+                {
+                  if (childr.gameObject.name != "#")
+                    {
+
+                        if (int.Parse(childr.gameObject.name) > line)
+                        {
+                            childr.gameObject.name = (int.Parse(childr.gameObject.name) - 1) + "";
+                        }
+                    }
+                }
+            }
+
+      
+
+    }
+
+    void deleteIndexByLineNumberOutput(int line)
+    {
+   
+
+            if (outputIndex == 0)
+            {
+                return;
+            }
+            if (outputIndex == 1)
+            {
+                foreach (Transform childr in outputNumberLayout.transform)
+                {
+                if (childr.gameObject.name != "#")
+                {
+                    Destroy(childr.gameObject);
+                }
+                }
+                outputIndex--;
+            }
+            else
+            {
+                outputIndex--;
+                Destroy(outputNumberLayout.GetComponent<Transform>().GetChild((line)).gameObject);
+                foreach (Transform childr in outputNumberLayout.transform)
+                {
+                    if (childr.gameObject.name != "#")
+                    {
+
+                        if (int.Parse(childr.gameObject.name) > line)
+                        {
+                            childr.gameObject.name = (int.Parse(childr.gameObject.name) - 1) + "";
+                        }
+                    }
+                }
+            }
+
+
+    }
+
     void resetTableAndRules()
     {
         inputTableRules.Clear();
         outputTableRules.Clear();
         Transform inputTransform = inputTableLayout.GetComponent<Transform>();
         Transform outputTransform = outputTableLayout.GetComponent<Transform>();
-        foreach (Transform child in inputTransform)
+        foreach (Transform childr in inputTransform)
         {
-            Destroy(child.gameObject);
+            Destroy(childr.gameObject);
         }
-        foreach (Transform child in outputTransform)
+        foreach (Transform childr in outputTransform)
         {
-            Destroy(child.gameObject);
+            Destroy(childr.gameObject);
         }
+        foreach (Transform childr in inputNumberLayout.GetComponent<Transform>())
+        {
+            Destroy(childr.gameObject);
+        }
+        foreach (Transform childr in outputNumberLayout.GetComponent<Transform>())
+        {
+            Destroy(childr.gameObject);
+        }
+
+        
         //Reset the labels on top of table for first, OUTPUT
         showOutputTable();
+
+        GameObject child = null;
+        child = new GameObject("#");
+        RectTransform childTransformation = child.AddComponent<RectTransform>();
+        childTransformation.SetParent(outputNumberLayout.transform);
+        childTransformation.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        TextMeshProUGUI textMesh = null;
+        textMesh = child.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+        Color textCol2 = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol2);
+        textMesh.color = textCol2;
+        textMesh.text = "#";
+
+      
+
         GameObject childRule = null;
         childRule = new GameObject("Access Rule");
         RectTransform childTrans = childRule.AddComponent<RectTransform>();
         childTrans.SetParent(outputTableLayout.transform);
         childTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
-        TextMeshProUGUI textMesh = null;
+        textMesh = null;
         textMesh = childRule.AddComponent<TextMeshProUGUI>();
         textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
         Debug.Log(textMesh.alignment);
@@ -199,7 +350,24 @@ public class LevelWinner : MonoBehaviour {
 
         //Now INPUT
         showInputTable();
-         childRule = null;
+
+        child = null;
+        child = new GameObject("#");
+        childTransformation = child.AddComponent<RectTransform>();
+        childTransformation.SetParent(inputNumberLayout.transform);
+        childTransformation.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+        textMesh = null;
+        textMesh = child.AddComponent<TextMeshProUGUI>();
+        textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+        Debug.Log(textMesh.alignment);
+        textMesh.font = textMeshFont;
+        textMesh.fontSize = 20.52f;
+        textCol = new Color();
+        ColorUtility.TryParseHtmlString("#D9FF00", out textCol);
+        textMesh.color = textCol;
+        textMesh.text = "#";
+
+        childRule = null;
         childRule = new GameObject("Access Rule");
          childTrans = childRule.AddComponent<RectTransform>();
         childTrans.SetParent(inputTableLayout.transform);
@@ -302,12 +470,21 @@ public class LevelWinner : MonoBehaviour {
     {
         UITutorial.SetActive(true);
     }
+    void hideUITutorial()
+    {
+        UITutorial.SetActive(false);
+    }
     void ShowLosingPanel()
     {
         
         StartCoroutine(panelTemporaryEnum());
 
     }
+    void ShowWinningPanel()
+    {
+        StartCoroutine(winningPanelTemporaryEnum());
+    }
+        
     IEnumerator panelTemporaryEnum()
     {
         losingPanel.SetActive(true);
@@ -316,11 +493,19 @@ public class LevelWinner : MonoBehaviour {
 
     }
 
+    IEnumerator winningPanelTemporaryEnum()
+    {
+        winningPanel.SetActive(true);
+        yield return new WaitForSeconds(8);
+        winningPanel.SetActive(false);
+    }
+
     IEnumerator loadLevel5Tutorial()
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_5;
+        levelNumber = 5;
         SceneManager.LoadScene(1);
     }
 
@@ -328,6 +513,7 @@ public class LevelWinner : MonoBehaviour {
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
+        levelNumber = 3;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_3;
         SceneManager.LoadScene(1);
     }
@@ -336,6 +522,7 @@ public class LevelWinner : MonoBehaviour {
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
+        levelNumber = 4;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_4;
         SceneManager.LoadScene(1);
     }
@@ -345,6 +532,7 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_2;
+        levelNumber = 2;
         SceneManager.LoadScene(1);
     }
 
@@ -352,6 +540,7 @@ public class LevelWinner : MonoBehaviour {
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
+        levelNumber = 6;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_6;
         SceneManager.LoadScene(1);
     }
@@ -359,6 +548,7 @@ public class LevelWinner : MonoBehaviour {
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
+        levelNumber = 7;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_7;
         SceneManager.LoadScene(1);
     }
@@ -366,6 +556,7 @@ public class LevelWinner : MonoBehaviour {
     {
         yield return new WaitForSeconds(6);
         BreifingTextControl.changedTutorialState = true;
+        levelNumber = 8;
         BreifingTextControl.staticTutorialState = BreifingTextControl.TutorialState.tutorial_8;
         SceneManager.LoadScene(1);
     }
@@ -406,6 +597,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacket.gameObject.SetActive(true);
                 bobPacket.playMovement();
                 alicePacket.playMovement();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel2Tutorial());
 
             }
@@ -428,6 +620,7 @@ public class LevelWinner : MonoBehaviour {
                 charliePacketLevel2.SetActive(true);
                 charliePacketLevel2.GetComponent<Animation>().Play();
                 bobPacketLevel2.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel3Tutorial());
                 
 
@@ -478,6 +671,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel3.GetComponent<Animation>().Play();
                 charliePacketLevel3.GetComponent<Animation>().Play();
                 bobPacketLevel3.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel4Tutorial());
             }
             //Way 2:
@@ -490,6 +684,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel3.GetComponent<Animation>().Play();
                 charliePacketLevel3.GetComponent<Animation>().Play();
                 bobPacketLevel3.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel4Tutorial());
             }
             else
@@ -507,6 +702,7 @@ public class LevelWinner : MonoBehaviour {
             // Way 1 : They simple do this rule on both the INPUT and OUTPUT table "DROP ANY ANY ANY http tcp" i.e iptables -A <tableName> --dport http -p tcp -j DROP
 
             string winningRule1 = "DROP ANY ANY ANY http tcp";
+            string outputRule1 = "DROP 122.15.43.22 ANY ANY http tcp";
 
             if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(winningRule1))
             {
@@ -517,6 +713,19 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel4.GetComponent<Animation>().Play();
                 bobPacketLevel4.GetComponent<Animation>().Play();
                 charliePacketLevel4.GetComponent<Animation>().Play();
+                ShowWinningPanel();
+                StartCoroutine(loadLevel5Tutorial());
+            }
+            else if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(outputRule1))
+            {
+                Debug.Log("You won!");
+                alicePacketLevel4.SetActive(true);
+                bobPacketLevel4.SetActive(true);
+                charliePacketLevel4.SetActive(true);
+                alicePacketLevel4.GetComponent<Animation>().Play();
+                bobPacketLevel4.GetComponent<Animation>().Play();
+                charliePacketLevel4.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel5Tutorial());
             }
             else
@@ -549,6 +758,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel5.GetComponent<Animation>().Play();
                 bobPacketLevel5.GetComponent<Animation>().Play();
                 charliePacketLevel5.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel6Tutorial());
 
             }
@@ -567,8 +777,8 @@ public class LevelWinner : MonoBehaviour {
             //To win, Block HTTP traffic from Alice to Bob and vice versa, and Allow Charlie to send UDP packets to Alice only, no need to change anything else
             //Rules needed: "DROP 192.168.1.33 80 ANY 80 tcp" in INPUT, "DROP 122.15.43.22 80 ANY 80 tcp" in OUTPUT, and "ACCEPT 192.11.76.5 ANY ANY ANY udp" in INPUT
 
-            bool cond1 = inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY udp") && inputTableRules.Contains("DROP 192.168.1.33 80 ANY 80 tcp");
-            bool cond2 = outputTableRules.Contains("DROP 122.15.43.22 80 ANY 80 tcp");
+            bool cond1 = inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY udp") && inputTableRules.Contains("DROP 192.168.1.33 http ANY http tcp");
+            bool cond2 = outputTableRules.Contains("DROP 122.15.43.22 http ANY http tcp");
 
             if (cond1 && cond2)
             {
@@ -579,6 +789,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel6.GetComponent<Animation>().Play();
                 bobPacketLevel6.GetComponent<Animation>().Play();
                 charliePacketLevel6.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel7Tutorial());
             }
             else
@@ -598,7 +809,7 @@ public class LevelWinner : MonoBehaviour {
             //2) Allow TCP traffic coming from Charlies computer through the firewall from the outside, and TCP traffic going from Alice computer through the firewall from the inside.
             //Need rule "ACCEPT 122.15.43.22 ANY ANY ANY tcp" in OUTPUT, "ACCEPT 192.11.76.5 ANY ANY ANY tcp" in INPUT
     
-            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("DROP 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("DROP 122.15.43.22 22 ANY 22 tcp"));
+            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("ACCEPT 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("ACCEPT 122.15.43.22 22 ANY 22 tcp"));
             bool cond2 = (inputTableRules.Contains("ACCEPT 192.168.1.33 ssh ANY ssh tcp") || inputTableRules.Contains("ACCEPT 192.168.1.33 22 ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
             
             if (cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
@@ -610,6 +821,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel7.GetComponent<Animation>().Play();
                 bobPacketLevel7.GetComponent<Animation>().Play();
                 charliePacketLevel7.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadLevel8Tutorial());
             }
             else
@@ -634,6 +846,7 @@ public class LevelWinner : MonoBehaviour {
                 alicePacketLevel7.GetComponent<Animation>().Play();
                 bobPacketLevel7.GetComponent<Animation>().Play();
                 charliePacketLevel7.GetComponent<Animation>().Play();
+                ShowWinningPanel();
                 StartCoroutine(loadWinningScene());
             }
         else
@@ -776,7 +989,7 @@ public class LevelWinner : MonoBehaviour {
 
             }
         }
-        else if (commandsParse[1] == "-D")
+        else if (commandsParse[1] == "-D" || commandsParse[1] == "-d")
             Debug.Log("Deleting rule detected");
         {
             string table = "";
@@ -802,16 +1015,20 @@ public class LevelWinner : MonoBehaviour {
                     {
                         inputTableRules.RemoveAt(line - 1);
                         Debug.Log("Child Count: " + inputTableLayout.GetComponent<Transform>().childCount);
+                        deleteIndexByLineNumberInput(line);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6))).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 2)).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 3)).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 4)).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 5)).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 6)).gameObject);
+                       
+                        
                     }
                     catch
                     {
-
+                        Debug.Log("Got caught in INPUT");
                     }
 
                 }
@@ -822,13 +1039,16 @@ public class LevelWinner : MonoBehaviour {
                     try
                     {
                         outputTableRules.RemoveAt(line - 1);
-                        Debug.Log("Child Count: " + outputTableLayout.GetComponent<Transform>().GetChild(13));
+                        Debug.Log("Child Count: " + outputTableLayout.GetComponent<Transform>().childCount);
+                        deleteIndexByLineNumberOutput(line);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6))).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 2)).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 3)).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 4)).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 5)).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 6)).gameObject);
+                        
                     }
                     catch
                     {
@@ -848,6 +1068,8 @@ public class LevelWinner : MonoBehaviour {
         outputTableButton.GetComponent<Image>().color = UnselectedBlueColor;
         inputDefault.gameObject.SetActive(true);
         outputDefault.gameObject.SetActive(false);
+        inputNumberLayout.gameObject.SetActive(true);
+        outputNumberLayout.gameObject.SetActive(false);
     }
      void showOutputTable()
     {
@@ -858,6 +1080,8 @@ public class LevelWinner : MonoBehaviour {
         outputTableButton.gameObject.GetComponent<Image>().color = selectedBlueColor;
         inputDefault.gameObject.SetActive(false);
         outputDefault.gameObject.SetActive(true);
+        inputNumberLayout.gameObject.SetActive(false);
+        outputNumberLayout.gameObject.SetActive(true);
 
     }
 
@@ -867,6 +1091,7 @@ public class LevelWinner : MonoBehaviour {
         string[] rule = rule_s.Split(' ');
 
         GameObject childRule;
+        GameObject childIndex;
         TextMeshProUGUI textMesh;
         for (int i = 0; i < rule.Length; i++)
         {
@@ -881,6 +1106,26 @@ public class LevelWinner : MonoBehaviour {
             textMesh.fontSize = 20.52f;
             textMesh.text = rule[i];
             textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+
+            if (i == 0)
+            {
+                inputIndex++;
+                childIndex = new GameObject(inputIndex + "");
+                RectTransform childIndexTrans = childIndex.AddComponent<RectTransform>();
+                childIndexTrans.SetParent(inputNumberLayout.transform);
+                childIndexTrans.sizeDelta = new Vector2(48.36f, 50);
+                childIndexTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+                textMesh = null;
+                textMesh = childIndex.AddComponent<TextMeshProUGUI>();
+                textMesh.font = textMeshFont;
+                textMesh.fontSize = 20.52f;
+                textMesh.text = inputIndex + "";
+                textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+            }
+
+
+
+
         }
     
    }
@@ -893,6 +1138,7 @@ public class LevelWinner : MonoBehaviour {
         showOutputTable();
 
         GameObject childRule;
+        GameObject childIndex;
         TextMeshProUGUI textMesh;
         for (int i = 0; i < rule.Length; i++)
         {
@@ -908,7 +1154,22 @@ public class LevelWinner : MonoBehaviour {
             textMesh.font = textMeshFont;
             textMesh.fontSize = 20.52f;
             textMesh.text = rule[i];
-            
+
+            if (i == 0)
+            {
+                outputIndex++;
+                childIndex = new GameObject(outputIndex + "");
+                RectTransform childIndexTrans = childIndex.AddComponent<RectTransform>();
+                childIndexTrans.SetParent(inputNumberLayout.transform);
+                childIndexTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
+                textMesh = null;
+                textMesh = childIndex.AddComponent<TextMeshProUGUI>();
+                textMesh.font = textMeshFont;
+                textMesh.fontSize = 20.52f;
+                textMesh.text = outputIndex + "";
+                textMesh.alignment = TextAlignmentOptions.MidlineGeoAligned;
+            }
+
         }
 
     }

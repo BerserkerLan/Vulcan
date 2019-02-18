@@ -1175,6 +1175,7 @@ public class LevelWinner : MonoBehaviour {
         inputTableRules.Add(rule_s);
         string[] rule = rule_s.Split(' ');
 
+        showInputTable();
         GameObject childRule;
         GameObject childIndex;
         TextMeshProUGUI textMesh;

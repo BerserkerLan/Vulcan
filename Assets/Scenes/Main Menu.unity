@@ -149,7 +149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 155.87502, y: -58.350006}
+  m_AnchoredPosition: {x: 155.875, y: -58.350006}
   m_SizeDelta: {x: 311.75003, y: 116.70001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &26144034
@@ -842,6 +842,7 @@ GameObject:
   - component: {fileID: 851290860}
   - component: {fileID: 851290859}
   - component: {fileID: 851290862}
+  - component: {fileID: 851290863}
   m_Layer: 0
   m_Name: Credits
   m_TagString: Untagged
@@ -990,6 +991,17 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &851290863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 851290857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdc84b4d70a7904bac760d2cc0c3a04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &915969310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,6 +1169,7 @@ GameObject:
   - component: {fileID: 940908081}
   - component: {fileID: 940908080}
   - component: {fileID: 940908083}
+  - component: {fileID: 940908084}
   m_Layer: 0
   m_Name: About
   m_TagString: Untagged
@@ -1305,6 +1318,17 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &940908084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 940908078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f373ec4de2d96ec49bd64d6f99c8d9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1097052311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,7 +1493,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.1, y: -7.2000427}
+  m_AnchoredPosition: {x: 1.0999756, y: -7.2000427}
   m_SizeDelta: {x: -73, y: -370.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1211153009
@@ -2062,6 +2086,7 @@ GameObject:
   - component: {fileID: 1956671226}
   - component: {fileID: 1956671225}
   - component: {fileID: 1956671228}
+  - component: {fileID: 1956671229}
   m_Layer: 0
   m_Name: Options
   m_TagString: Untagged
@@ -2210,6 +2235,17 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &1956671229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1956671223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e9bcf2f71c6c354c920cca83335f158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2043742644
 GameObject:
   m_ObjectHideFlags: 0

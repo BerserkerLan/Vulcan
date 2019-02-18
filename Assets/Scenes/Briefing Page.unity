@@ -953,14 +953,14 @@ MonoBehaviour:
     lets go on to the first level and go through this practically.\r\n"
   - Well, you humans are better than I thought! Well done. Now that was how you set
     a default policy, now let us go into how you actually add rules to the table!
-  - 'A packet is sent from a computer, and send to another computer. How do you think
-    a packet would be able to identify one computer from another? This is where IP
-    addresses come into networking.
+  - 'A packet is sent from one computer to another computer. How do you think a packet
+    would be able to identify one computer from any another? This is where IP addresses
+    come into networking.
 
 '
   - IP addresses are unique for every computer. The very computer you're playing this
-    on definitely has an IP address. They are a set of numbers seperated by a . ,
-    for e.g. 192.154.23.14 is an IP address.
+    on definitely has an IP address. They are a set of numbers seperated by a dot
+    (.) for e.g. 192.154.23.14 is an IP address.
   - 'A packet has the IP addresses of the one who sends the packet and the one it
     has to go to written on it.
 
@@ -968,8 +968,9 @@ MonoBehaviour:
     computer on a network, and not all of them!'
   - "Now, let us test this out by adding a Firewall Rule!\nTo add a rule to block
     a connection coming into Alice from Bob, Where Bob has an IP address of say 192.35.42.52,
-    we could type in:\n      iptables -A INPUT -s 192.35.42.52\nWhere -A means APPEND,
-    and -s means SOURCE i.e. where did the packet come from."
+    we could type in:\n      iptables -A INPUT -s 192.35.42.52 -j DROP\nWhere -A means
+    APPEND, and -s means SOURCE i.e. where did the packet come from, and -j DROP means
+    that the packet should not be allowed through the firewall."
   - Now, lets play! Try out the hint button if you forget the command!
   - "Wow, you really have improved my opinion of your race. You're not too shabby!
     Congratulations on adding that rule!\r\nNow, you might have noticed a bunch of
@@ -1072,10 +1073,11 @@ MonoBehaviour:
 
     The two chains we have gone over are the INPUT and OUTPUT chains. Now, we know
     how to add a command to each table. Lets make this level a bit more complicated!'
-  - "For this level, you need to do three things:\n\n1) Allow Bob to SSH into Alice's
-    computer (Remember the two way rule)\n\n2) Allow TCP traffic from Charlies computer
-    through the firewall, and traffic going into Charlies computer through the firewall.\n\n3)
-    Set the default policy for both chains to DROP.\n\nThe order you do these matter!\t"
+  - "For this level, you need to do three things:\n\n1) Do not allow Bob to SSH into
+    Alice's computer (Remember the two way rule)\n\n2) Allow TCP traffic from Charlies
+    computer through the firewall, and traffic going into Charlies computer through
+    the firewall.\n\n3) Set the default policy for both chains to DROP.\n\nThe order
+    you do these matter!\t"
   - 'If you''ve forgotten, don''t worry. Press the hint button to remind you!
 
 
@@ -1085,10 +1087,9 @@ MonoBehaviour:
   - Rules are numbered from 1 onwards from top to bottom. This number is called their
     line number. You can use the rules line number to delete the rule.
   - "The command to do this is :\n\n <color=#25DD1A>iptables -D <INPUTorOUTPUT> <lineNumber>
-    </color>\n\nNormally, the table would show the line numbers, but I am evil, so
-    you shall count them. Mwaahahahaahah!"
+    </color>\n\n"
   - In this level. simply delete the rule you think should be deleted so that Alice
-    can send HTTP packets to Charlie. Only one rule needs to be deleted. Good luck!
+    can send HTTP packets to Charlie. Good luck!
 --- !u!114 &738101438
 MonoBehaviour:
   m_ObjectHideFlags: 0

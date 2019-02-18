@@ -13,6 +13,7 @@ public class LevelWinner : MonoBehaviour {
     string inputDefaultRule = "Default : ACCEPT";
     string outputDefaultRule = "Default : ACCEPT";
     bool hintShowing = false;
+    bool breifShowing = true;
 
     public int levelNumber;
     public TMP_FontAsset textMeshFont;
@@ -29,12 +30,18 @@ public class LevelWinner : MonoBehaviour {
     public Button hintButton;
     public GameObject hintBox;
     public GameObject hintTextBox;
+    public Button breifingButton;
+    public GameObject breifingBox;
+    public GameObject breifingTextBox;
     public GameObject UITutorial;
     public GameObject[] networkDiagrams;
     public GameObject losingPanel;
     public GameObject winningPanel;
     [TextArea(20,30)]
+    public string[] breifingText;
+    [TextArea(20, 30)]
     public string[] hintText;
+
     public GameObject bobPacketLevel2;
     public GameObject charliePacketLevel2;
     public GameObject bobPacketLevel3;
@@ -124,6 +131,12 @@ public class LevelWinner : MonoBehaviour {
         }
         networkDiagrams[levelNumber - 1].SetActive(true);
         hintTextBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
+        breifingTextBox.GetComponentInChildren<TextMeshProUGUI>().text = breifingText[levelNumber - 1];
+
+        if (levelNumber == 1)
+        {
+            breifingBox.SetActive(false);
+        }
         hintBox.SetActive(false);
 
     }
@@ -581,6 +594,20 @@ public class LevelWinner : MonoBehaviour {
         }
     }
 
+    void showOrHideBreifingPanel()
+    {
+        if (breifShowing)
+        {
+            breifingBox.SetActive(false);
+            breifShowing = false;
+        }
+        else
+        {
+            breifingBox.SetActive(true);
+            breifShowing = true;
+        }
+    }
+
     //Bob: 192.168.1.33
     //Alice: 122.15.43.22
     //CHarlie: 192.11.76.5
@@ -646,6 +673,7 @@ public class LevelWinner : MonoBehaviour {
             String winningRule3 = "ACCEPT 122.15.43.22 ANY ANY ANY tcp"; //Should be in OUTPUT
             String winningRule1 = "ACCEPT 192.11.76.5 ANY ANY ANY tcp";
             String winningRule2 = "ACCEPT 192.168.1.33 ANY ANY ANY tcp"; //Both rules just needed in INPUT table
+            String winningRule12 = "ACCEPT ANY ANY ANY ANY tcp"; //This can also be in the INPUT table instead of the above rule
             String dropOnAllRule = "DROP ANY ANY ANY ANY ANY";
             //This one also needs default policy to be DROP
             foreach (string rule in inputTableRules)
@@ -662,7 +690,7 @@ public class LevelWinner : MonoBehaviour {
             Debug.Log(inputTableRules.Contains(winningRule2));
 
 
-            if (inputTableRules.Contains(winningRule1)  && outputTableRules.Contains(winningRule3) &&inputTableRules.Contains(winningRule2) && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
+            if ((inputTableRules.Contains(winningRule1) && inputTableRules.Contains(winningRule2) || inputTableRules.Contains(winningRule12)) && outputTableRules.Contains(winningRule3) && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
             {
                 Debug.Log("You won!");
                 alicePacketLevel3.SetActive(true);
@@ -698,12 +726,19 @@ public class LevelWinner : MonoBehaviour {
         if (levelNumber == 4)
         {
             //To win, have to block ALL HTTP TRAFFIC INTO AND OUT OF THE FIREWALL
-            //Can be done in two ways, but I'm just going to allow one way
             // Way 1 : They simple do this rule on both the INPUT and OUTPUT table "DROP ANY ANY ANY http tcp" i.e iptables -A <tableName> --dport http -p tcp -j DROP
+            // Way 2 : As this level doesn't specify allowing any type of traffic, it can simply DROP by default with nothing different, or have the DROP ALL rule in both tables
+            //Done some other ways too since players kept doing other ways
 
             string winningRule1 = "DROP ANY ANY ANY http tcp";
             string outputRule1 = "DROP 122.15.43.22 ANY ANY http tcp";
 
+
+            //When IP Addresses are specified
+            string winningRule2 = "DROP 192.11.76.5 ANY ANY http tcp";
+            string winningRule3 = "DROP 192.168.1.33 ANY ANY http tcp";
+            String dropOnAllRule = "DROP ANY ANY ANY ANY ANY";
+            
             if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(winningRule1))
             {
                 Debug.Log("You won!");
@@ -717,6 +752,30 @@ public class LevelWinner : MonoBehaviour {
                 StartCoroutine(loadLevel5Tutorial());
             }
             else if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(outputRule1))
+            {
+                Debug.Log("You won!");
+                alicePacketLevel4.SetActive(true);
+                bobPacketLevel4.SetActive(true);
+                charliePacketLevel4.SetActive(true);
+                alicePacketLevel4.GetComponent<Animation>().Play();
+                bobPacketLevel4.GetComponent<Animation>().Play();
+                charliePacketLevel4.GetComponent<Animation>().Play();
+                ShowWinningPanel();
+                StartCoroutine(loadLevel5Tutorial());
+            }
+            else if (inputTableRules.Contains(winningRule2) && inputTableRules.Contains(winningRule3) && (outputTableRules.Contains(winningRule1) || outputTableRules.Contains(outputRule1))) 
+            {
+                Debug.Log("You won!");
+                alicePacketLevel4.SetActive(true);
+                bobPacketLevel4.SetActive(true);
+                charliePacketLevel4.SetActive(true);
+                alicePacketLevel4.GetComponent<Animation>().Play();
+                bobPacketLevel4.GetComponent<Animation>().Play();
+                charliePacketLevel4.GetComponent<Animation>().Play();
+                ShowWinningPanel();
+                StartCoroutine(loadLevel5Tutorial());
+            }
+            else if ((inputTableRules.Contains(dropOnAllRule) && outputTableRules.Contains(dropOnAllRule)) || (inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP"))
             {
                 Debug.Log("You won!");
                 alicePacketLevel4.SetActive(true);
@@ -765,6 +824,14 @@ public class LevelWinner : MonoBehaviour {
             else if (cond1 && cond2 && inputTableRules.Contains("DROP ANY ANY ANY ANY ANY") && outputTableRules.Contains("DROP ANY ANY ANY ANY ANY"))
             {
                 Debug.Log("You won!");
+                alicePacketLevel5.SetActive(true);
+                bobPacketLevel5.SetActive(true);
+                charliePacketLevel5.SetActive(true);
+                alicePacketLevel5.GetComponent<Animation>().Play();
+                bobPacketLevel5.GetComponent<Animation>().Play();
+                charliePacketLevel5.GetComponent<Animation>().Play();
+                ShowWinningPanel();
+                StartCoroutine(loadLevel6Tutorial());
             }
             else
             {
@@ -808,11 +875,26 @@ public class LevelWinner : MonoBehaviour {
 
             //2) Allow TCP traffic coming from Charlies computer through the firewall from the outside, and TCP traffic going from Alice computer through the firewall from the inside.
             //Need rule "ACCEPT 122.15.43.22 ANY ANY ANY tcp" in OUTPUT, "ACCEPT 192.11.76.5 ANY ANY ANY tcp" in INPUT
-    
-            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("ACCEPT 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("ACCEPT 122.15.43.22 22 ANY 22 tcp"));
-            bool cond2 = (inputTableRules.Contains("ACCEPT 192.168.1.33 ssh ANY ssh tcp") || inputTableRules.Contains("ACCEPT 192.168.1.33 22 ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
+
+            bool firstRuleFound = false;
+            bool orderingCorrect = false;
+
+            foreach (String rule in outputTableRules)
+            {
+                if (rule == "DROP 122.15.43.22 ssh ANY ssh tcp" || rule == "DROP 122.15.43.22 22 ANY 22 tcp")
+                {
+                    firstRuleFound = true;
+                }
+                if ( rule == "ACCEPT 122.15.43.22 ANY ANY ANY tcp" && firstRuleFound)
+                {
+                    orderingCorrect = true;
+                }
+            }
+
+            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("DROP 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("DROP 122.15.43.22 22 ANY 22 tcp"));
+            bool cond2 = (inputTableRules.Contains("DROP 192.168.1.33 ssh ANY ssh tcp") || inputTableRules.Contains("DROP 192.168.1.33 22 ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
             
-            if (cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
+            if (orderingCorrect && cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
             {
                 Debug.Log("You won!");
                 alicePacketLevel7.SetActive(true);

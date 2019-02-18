@@ -934,13 +934,13 @@ MonoBehaviour:
   - "Computers communicate by sending something called packets. More on this later.\r\n\r\nThese
     packets are sent between computers, and includes a bunch of details like where
     it is from and who it is going to, just like what you humans call Mail."
-  - "The firewall we will be dealing with is a simple one that uses two tables to
+  - "The firewall we will be dealing with is a simple one that uses two chains to
     check whether it should allow communication between computers or not.\r"
-  - 'The INPUT table lists rules to check when packets are going INTO the network
+  - 'The INPUT chain lists rules to check when packets are going INTO the network
     through the firewall.
 
 '
-  - The OUTPUT table lists rules that the firewall checks when packets are going OUT
+  - The OUTPUT chain lists rules that the firewall checks when packets are going OUT
     of the network.
   - "Firewalls can be configured using a terminal, so I've made a simpler version
     of the terminal for you to use. We will use this terminal to add or remove rules.\r\n\nOh
@@ -948,11 +948,11 @@ MonoBehaviour:
     in its tables, it does whatever the DEFAULT POLICY states. More on it this level.\r\n\n"
   - "You can change the default policy using this command:\n\t <color=#25DD1A>iptables
     --policy INPUT ACCEPT</color>\nThis will change the default policy of the INPUT
-    table to ACCEPT i.e Allow all packets by default INTO the network.\n\nWhat? I'm
+    chain to ACCEPT i.e Allow all packets by default INTO the network.\n\nWhat? I'm
     going too fast? I should have expected this from such lowly evolved species. Fine,
     lets go on to the first level and go through this practically.\r\n"
   - Well, you humans are better than I thought! Well done. Now that was how you set
-    a default policy, now let us go into how you actually add rules to the table!
+    a default policy, now let us go into how you actually add rules to the chains!
   - 'A packet is sent from one computer to another computer. How do you think a packet
     would be able to identify one computer from any another? This is where IP addresses
     come into networking.
@@ -989,9 +989,9 @@ MonoBehaviour:
     copy."
   - " In this way, TCP ensures all packets are assembled in order without any holes.\r\n
     Now let us test out this protocol in a practical scenario.\nThis time, we will
-    use the command \n         iptables -A <INPUTorOUTPUTtable> -s <someIPAddress>
-    -p tcp -j <ACCEPTorDROP>\n\nThe protocol is specified with the '-p' parameter.
-    Use it in the next level to allow ONLY TCP traffic into and out of Alice's Computer.
+    use the command \n         iptables -A <INPUTorOUTPUT> -s <someIPAddress> -p tcp
+    -j <ACCEPTorDROP>\n\nThe protocol is specified with the '-p' parameter. Use it
+    in the next level to allow ONLY TCP traffic into and out of Alice's Computer.
     Make sure to use the default policy again."
   - TCP and UDP are big protocols, and provide some features that are used by higher
     level protocols, much like the C language provides functionality for languages

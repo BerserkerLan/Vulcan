@@ -475,6 +475,9 @@ public class LevelWinner : MonoBehaviour {
         textMesh.color = textCol;
         textMesh.fontSize = 20.52f;
         textMesh.text = "Protocol";
+
+        inputIndex = 0;
+        outputIndex = 0;
        
 
     }

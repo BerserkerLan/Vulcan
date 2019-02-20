@@ -222,6 +222,10 @@ public class LevelWinner : MonoBehaviour {
 
     void resetTableAndRules()
     {
+        if (levelNumber == 8)
+        {
+            return;
+        }
         inputTableRules.Clear();
         outputTableRules.Clear();
         Transform inputTransform = inputTableLayout.GetComponent<Transform>();
@@ -804,8 +808,8 @@ public class LevelWinner : MonoBehaviour {
             //Two ways: set default policy to DROP, and Allow SSH from Charlie to Alice, or Allow SSH and then add a rule to drop it
             //Way 1 : Allow SSH in both tables from Charlie to Alice and vice versa, and then default drop "ACCEPT 192.11.76.5 ssh ANY ssh tcp" || "ACCEPT 192.11.76.5 ssh ANY ssh tcp"
 
-            bool cond1 = (outputTableRules.Contains("ACCEPT 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("ACCEPT 192.11.76.5 22 ANY 22 tcp"));
-            bool cond2 = (inputTableRules.Contains("ACCEPT 192.11.76.5 ssh ANY ssh tcp") || inputTableRules.Contains("ACCEPT 122.15.43.22 22 ANY 22 tcp"));
+            bool cond1 = (outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ssh tcp") || outputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY 22 tcp"));
+            bool cond2 = (inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ssh tcp") || inputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY 22 tcp"));
             Debug.Log(cond1);
             Debug.Log(cond2);
             Debug.Log(inputTableRules);
@@ -847,8 +851,8 @@ public class LevelWinner : MonoBehaviour {
             //To win, Block HTTP traffic from Alice to Bob and vice versa, and Allow Charlie to send UDP packets to Alice only, no need to change anything else
             //Rules needed: "DROP 192.168.1.33 80 ANY 80 tcp" in INPUT, "DROP 122.15.43.22 80 ANY 80 tcp" in OUTPUT, and "ACCEPT 192.11.76.5 ANY ANY ANY udp" in INPUT
 
-            bool cond1 = inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY udp") && inputTableRules.Contains("DROP 192.168.1.33 http ANY http tcp");
-            bool cond2 = outputTableRules.Contains("DROP 122.15.43.22 http ANY http tcp");
+            bool cond1 = inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY udp") && inputTableRules.Contains("DROP 192.168.1.33 ANY ANY http tcp");
+            bool cond2 = outputTableRules.Contains("DROP 122.15.43.22 ANY ANY http tcp");
 
             if (cond1 && cond2)
             {
@@ -884,7 +888,7 @@ public class LevelWinner : MonoBehaviour {
 
             foreach (String rule in outputTableRules)
             {
-                if (rule == "DROP 122.15.43.22 ssh ANY ssh tcp" || rule == "DROP 122.15.43.22 22 ANY 22 tcp")
+                if (rule == "DROP 122.15.43.22 ANY ANY ssh tcp" || rule == "DROP 122.15.43.22 ANY ANY 22 tcp")
                 {
                     firstRuleFound = true;
                 }
@@ -894,8 +898,8 @@ public class LevelWinner : MonoBehaviour {
                 }
             }
 
-            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("DROP 122.15.43.22 ssh ANY ssh tcp") || outputTableRules.Contains("DROP 122.15.43.22 22 ANY 22 tcp"));
-            bool cond2 = (inputTableRules.Contains("DROP 192.168.1.33 ssh ANY ssh tcp") || inputTableRules.Contains("DROP 192.168.1.33 22 ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
+            bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("DROP 122.15.43.22 ANY ANY ssh tcp") || outputTableRules.Contains("DROP 122.15.43.22 ANY ANY 22 tcp"));
+            bool cond2 = (inputTableRules.Contains("DROP 192.168.1.33 ANY ANY ssh tcp") || inputTableRules.Contains("DROP 192.168.1.33 ANY ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
             
             if (orderingCorrect && cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
             {
@@ -1246,7 +1250,7 @@ public class LevelWinner : MonoBehaviour {
                 outputIndex++;
                 childIndex = new GameObject(outputIndex + "");
                 RectTransform childIndexTrans = childIndex.AddComponent<RectTransform>();
-                childIndexTrans.SetParent(inputNumberLayout.transform);
+                childIndexTrans.SetParent(outputNumberLayout.transform);
                 childIndexTrans.localScale = new Vector3(1.0002f, 1.0002f, 1.0002f);
                 textMesh = null;
                 textMesh = childIndex.AddComponent<TextMeshProUGUI>();

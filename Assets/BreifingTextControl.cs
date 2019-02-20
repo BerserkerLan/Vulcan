@@ -21,6 +21,10 @@ public class BreifingTextControl : MonoBehaviour {
     public static bool changedTutorialState = false;
     public AudioSource keyboardSound;
     public TextMeshProUGUI tutNo;
+    public GameObject diagramPanel;
+    public GameObject bobPacket;
+    public GameObject yourPacket;
+    public GameObject colonelImage;
     int startIndex;
     bool coroutinePlaying;
     
@@ -63,13 +67,13 @@ public class BreifingTextControl : MonoBehaviour {
         }
         if (state == TutorialState.tutorial_5)
         {
-            levelStartIndex = 28;
+            levelStartIndex = 27;
             currentTutorialIndex = 25;
         }
         if (state == TutorialState.tutorial_6)
         {
             levelStartIndex = 32;
-            currentTutorialIndex = 28;
+            currentTutorialIndex = 27;
         }
         if (state == TutorialState.tutorial_7)
         {
@@ -101,6 +105,7 @@ public class BreifingTextControl : MonoBehaviour {
 
     void loadNextInstruction()
     {
+        
         if (coroutinePlaying)
         {
             gameObject.GetComponent<TextMeshProUGUI>().text = tutorialInstructions[currentTutorialIndex];
@@ -112,6 +117,21 @@ public class BreifingTextControl : MonoBehaviour {
 
             backButton.gameObject.SetActive(true);
             currentTutorialIndex++;
+            if (state != TutorialState.UItutorial)
+            {
+                if (currentTutorialIndex == 5)
+                {
+                    showInputPacket();
+                }
+                else if (currentTutorialIndex == 6)
+                {
+                    showOutputPacket();
+                }
+                else
+                {
+                    hideDiagram();
+                }
+            }
             if (state != TutorialState.UItutorial)
             {
                 tutNo.text = ((currentTutorialIndex + 1) - startIndex) + tutNo.text.Substring(1, tutNo.text.Length - 1);
@@ -150,9 +170,50 @@ public class BreifingTextControl : MonoBehaviour {
 
     }
 
+    void showInputPacket()
+    {
+        diagramPanel.SetActive(true);
+        colonelImage.SetActive(false);
+        yourPacket.SetActive(false);
+        bobPacket.SetActive(true);
+        
+    }
+
+    void showOutputPacket()
+    {
+        diagramPanel.SetActive(true);
+        colonelImage.SetActive(false);
+        yourPacket.SetActive(true);
+        bobPacket.SetActive(false);
+        
+        yourPacket.GetComponent<Animation>().Play();
+    }
+
+    void hideDiagram()
+    {
+        diagramPanel.SetActive(false);
+        colonelImage.SetActive(true);
+    }
+
     void loadPreviousInstruction()
     {
         currentTutorialIndex--;
+
+        if (state != TutorialState.UItutorial)
+        {
+            if (currentTutorialIndex == 5)
+            {
+                showInputPacket();
+            }
+            else if (currentTutorialIndex == 6)
+            {
+                showOutputPacket();
+            }
+            else
+            {
+                hideDiagram();
+            }
+        }
         Debug.Log(currentTutorialIndex);
         if (state != TutorialState.UItutorial)
         {

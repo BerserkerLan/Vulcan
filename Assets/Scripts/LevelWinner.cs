@@ -25,6 +25,8 @@ public class LevelWinner : MonoBehaviour {
     public TMP_Text inputDefault, outputDefault;
     public GridLayoutGroup inputTableLayout, outputTableLayout;
     public VerticalLayoutGroup inputNumberLayout, outputNumberLayout;
+    public GameObject outputScrollview, inputScrollview;
+    public GameObject outputNumberview, inputNumberview;
     Color selectedBlueColor, UnselectedBlueColor;
     public Packet bobPacket, alicePacket;
     public Button hintButton;
@@ -1159,6 +1161,10 @@ public class LevelWinner : MonoBehaviour {
         outputDefault.gameObject.SetActive(false);
         inputNumberLayout.gameObject.SetActive(true);
         outputNumberLayout.gameObject.SetActive(false);
+        inputScrollview.SetActive(true);
+        inputNumberview.SetActive(true);
+        outputScrollview.SetActive(false);
+        outputNumberview.SetActive(false);
     }
      void showOutputTable()
     {
@@ -1171,6 +1177,10 @@ public class LevelWinner : MonoBehaviour {
         outputDefault.gameObject.SetActive(true);
         inputNumberLayout.gameObject.SetActive(false);
         outputNumberLayout.gameObject.SetActive(true);
+        inputScrollview.SetActive(false);
+        inputNumberview.SetActive(false);
+        outputScrollview.SetActive(true);
+        outputNumberview.SetActive(true);
 
     }
 

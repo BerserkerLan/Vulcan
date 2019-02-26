@@ -125,11 +125,11 @@ public class LevelWinner : MonoBehaviour {
 
       
 
-        if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_8)
+        if (levelNumber == 8)
         {
             addOutputRule("DROP 122.15.43.22 ANY ANY ANY tcp");
-            addOutputRule("DROP 122.15.43.22 ssh ANY ssh tcp");
-            addInputRule("DROP 192.168.1.33 http ANY http tcp");
+            addOutputRule("DROP 122.15.43.22 ANY ANY ssh tcp");
+            addInputRule("DROP 192.168.1.33 ANY ANY http tcp");
         }
         networkDiagrams[levelNumber - 1].SetActive(true);
         hintTextBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
@@ -185,37 +185,45 @@ public class LevelWinner : MonoBehaviour {
 
     void deleteIndexByLineNumberOutput(int line)
     {
-   
 
-            if (outputIndex == 0)
+        Destroy(outputNumberLayout.GetComponent<Transform>().GetChild(line).gameObject);
+        if (outputIndex == 0)
             {
                 return;
             }
-            if (outputIndex == 1)
+        if (outputIndex == 1)
             {
                 foreach (Transform childr in outputNumberLayout.transform)
                 {
-                if (childr.gameObject.name != "#")
-                {
-                    Destroy(childr.gameObject);
-                }
+                    if (childr.gameObject.name != "#")
+                    {
+                    Debug.Log("Destroying object : " + childr.gameObject.name);
+                        Destroy(childr.gameObject);
+                    }
                 }
                 outputIndex--;
-            }
-            else
+             }
+        else
             {
                 outputIndex--;
                 Destroy(outputNumberLayout.GetComponent<Transform>().GetChild((line)).gameObject);
                 foreach (Transform childr in outputNumberLayout.transform)
                 {
-                    if (childr.gameObject.name != "#")
-                    {
-
-                        if (int.Parse(childr.gameObject.name) > line)
+                if (childr.gameObject.name != "#")
+                {
+                    Debug.Log("current Child is :" + childr.gameObject.GetComponent<TextMeshProUGUI>().text);
+                    try {
+                        if (Convert.ToInt32(childr.gameObject.name) > line)
                         {
-                            childr.gameObject.name = (int.Parse(childr.gameObject.name) - 1) + "";
+                            childr.gameObject.name = (Convert.ToInt32(childr.gameObject.name) - 1) + "";
+                            childr.gameObject.GetComponent<TextMeshProUGUI>().text = (Convert.ToInt32(childr.gameObject.GetComponent<TextMeshProUGUI>().text) - 1) + "";
                         }
+                    } catch
+                    {
+                        Debug.Log("Caught in parsing the int in the number layout"); //So this got caught
                     }
+                    }
+                
                 }
             }
 
@@ -1098,7 +1106,7 @@ public class LevelWinner : MonoBehaviour {
             {
                 lineNumber = commandsParse[3];
             }
-            Debug.Log(table);
+            Debug.Log("Table is " + table);
             Debug.Log("LINE NUMBER:" + lineNumber);
             if (table != "" && lineNumber != "" && lineNumber != "0")
             {
@@ -1109,7 +1117,7 @@ public class LevelWinner : MonoBehaviour {
                     try
                     {
                         inputTableRules.RemoveAt(line - 1);
-                        Debug.Log("Child Count: " + inputTableLayout.GetComponent<Transform>().childCount);
+                        Debug.Log("Child Count: " + inputTableLayout.GetComponent<Transform>().GetChild(line * 6).gameObject.name);
                         deleteIndexByLineNumberInput(line);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6))).gameObject);
                         Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
@@ -1123,7 +1131,7 @@ public class LevelWinner : MonoBehaviour {
                     }
                     catch
                     {
-                        Debug.Log("Got caught in INPUT");
+                        Debug.Log("Got caught in INPUT for deletion");
                     }
 
                 }
@@ -1131,24 +1139,18 @@ public class LevelWinner : MonoBehaviour {
                 {
                     int line = Convert.ToInt32(lineNumber);
                     Debug.Log("line after conversion:" + line);
-                    try
-                    {
+                    
                         outputTableRules.RemoveAt(line - 1);
-                        Debug.Log("Child Count: " + outputTableLayout.GetComponent<Transform>().childCount);
                         deleteIndexByLineNumberOutput(line);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6))).gameObject);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 2)).gameObject);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 3)).gameObject);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 4)).gameObject);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 5)).gameObject);
-                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 6)).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild(line * 6).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 1).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 2).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 3).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 4).gameObject);
+                        Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 5).gameObject);
                         
-                    }
-                    catch
-                    {
-
-                    }
+                    
+                    
                 }
             }
         }

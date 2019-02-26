@@ -25,6 +25,8 @@ public class BreifingTextControl : MonoBehaviour {
     public GameObject bobPacket;
     public GameObject yourPacket;
     public GameObject colonelImage;
+    public GameObject inputArrow;
+    public GameObject outputArrow;
     int startIndex;
     bool coroutinePlaying;
     
@@ -176,6 +178,8 @@ public class BreifingTextControl : MonoBehaviour {
         colonelImage.SetActive(false);
         yourPacket.SetActive(false);
         bobPacket.SetActive(true);
+        inputArrow.SetActive(true);
+        outputArrow.SetActive(false);
         
     }
 
@@ -185,7 +189,9 @@ public class BreifingTextControl : MonoBehaviour {
         colonelImage.SetActive(false);
         yourPacket.SetActive(true);
         bobPacket.SetActive(false);
-        
+        inputArrow.SetActive(false);
+        outputArrow.SetActive(true);
+
         yourPacket.GetComponent<Animation>().Play();
     }
 

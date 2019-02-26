@@ -900,9 +900,13 @@ public class LevelWinner : MonoBehaviour {
                 }
             }
 
+            Debug.Log("orderingCorrent : " + orderingCorrect);
+
             bool cond1 = outputTableRules.Contains("ACCEPT 122.15.43.22 ANY ANY ANY tcp") && (outputTableRules.Contains("DROP 122.15.43.22 ANY ANY ssh tcp") || outputTableRules.Contains("DROP 122.15.43.22 ANY ANY 22 tcp"));
             bool cond2 = (inputTableRules.Contains("DROP 192.168.1.33 ANY ANY ssh tcp") || inputTableRules.Contains("DROP 192.168.1.33 ANY ANY 22 tcp")) && inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY tcp");
-            
+
+            Debug.Log("cond1 : " + cond1);
+            Debug.Log("cond2 :" + cond2);
             if (orderingCorrect && cond1 && cond2 && inputDefault.text == "Default : DROP" && outputDefault.text == "Default : DROP")
             {
                 Debug.Log("You won!");

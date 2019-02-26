@@ -1721,7 +1721,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 131561637}
   m_HandleRect: {fileID: 131561636}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10958,7 +10958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade308b49bf0dbe4daecf1824d17c5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 3
+  levelNumber: 7
   textMeshFont: {fileID: 11400000, guid: f35daf5f75177ce48a3257b73cd40b54, type: 2}
   playButton: {fileID: 594821052}
   runTerminalCommandButton: {fileID: 1123929666}
@@ -11035,6 +11035,9 @@ MonoBehaviour:
 
 
     3) Allow TCP traffic from Alice''s computer.
+
+
+    4) Set the default policy of both chains to DROP.
 
 
     In this level, the order you do these tasks matter.'

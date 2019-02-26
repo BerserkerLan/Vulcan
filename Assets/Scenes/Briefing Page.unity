@@ -790,6 +790,81 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!1 &421800056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 421800057}
+  - component: {fileID: 421800058}
+  m_Layer: 0
+  m_Name: red_arrow_input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &421800057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 421800056}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8.4, y: 38.6, z: -5400}
+  m_LocalScale: {x: 6.0291, y: 9.1482, z: 60}
+  m_Children: []
+  m_Father: {fileID: 1187776369}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &421800058
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 421800056}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 8a4c34903ff84014998da50084d9585f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 13.32, y: 7.31}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &493745916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,6 +1284,8 @@ MonoBehaviour:
   bobPacket: {fileID: 749778816}
   yourPacket: {fileID: 1200669358}
   colonelImage: {fileID: 1972196898}
+  inputArrow: {fileID: 421800056}
+  outputArrow: {fileID: 1939062269}
   levelStartIndex: 9
   tutorialInstructions:
   - "Ok maggot, my name is Colonel Whiskers. You best remember that.\r\n\r\nYour only
@@ -1253,9 +1330,10 @@ MonoBehaviour:
     computer on a network, and not all of them!'
   - "Now, let us test this out by adding a Firewall Rule!\nTo add a rule to block
     a connection coming into Alice from Bob, Where Bob has an IP address of say 192.35.42.52,
-    we could type in:\n      iptables -A INPUT -s 192.35.42.52 -j DROP\nWhere -A means
-    APPEND, and -s means SOURCE i.e. where did the packet come from, and -j DROP means
-    that the packet should not be allowed through the firewall."
+    we could type in:\n\n       <color=#3E8200>iptables -A INPUT -s 192.35.42.52 -j
+    DROP</color>\nWhere -A means APPEND, and -s means SOURCE i.e. where did the packet
+    come from, and -j DROP means that the packet should not be allowed through the
+    firewall."
   - Now, lets play! Try out the hint button if you forget the command!
   - "Wow, you really have improved my opinion of your race. You're not too shabby!
     Congratulations on adding that rule!\r\nNow, you might have noticed a bunch of
@@ -1274,9 +1352,9 @@ MonoBehaviour:
     copy."
   - " In this way, TCP ensures all packets are assembled in order without any holes.\r\n
     Now let us test out this protocol in a practical scenario.\nThis time, we will
-    use the command \n         iptables -A <INPUTorOUTPUT> -s <someIPAddress> -p tcp
-    -j <ACCEPTorDROP>\n\nThe protocol is specified with the '-p' parameter. Use it
-    in the next level to allow ONLY TCP traffic into and out of Alice's Computer.
+    use the command \n          <color=#3E8200>iptables -A <INPUTorOUTPUT> -s <someIPAddress>
+    -p tcp -j <ACCEPTorDROP></color>\n\nThe protocol is specified with the '-p' parameter.
+    Use it in the next level to allow ONLY TCP traffic into and out of Alice's Computer.
     Make sure to use the default policy again."
   - TCP and UDP are big protocols, and provide some features that are used by higher
     level protocols, much like the C language provides functionality for languages
@@ -1287,9 +1365,9 @@ MonoBehaviour:
     You can find this at the front of most URL''s. This is because its mainly used
     for websites.
 
-'
-  - It sends the webpages in its protocol using TCP. There are other protocols that
-    use TCP that will be discussed later. These protocols are called application protocols.
+
+    It sends the webpages in its protocol using TCP. There are other protocols that
+    use TCP that will be discussed later. These protocols are called application protocols.'
   - 'Just like an IP address identifies a different computer, different application
     protocols are identified by something called a Port Number.
 
@@ -1297,11 +1375,17 @@ MonoBehaviour:
     The Port number for HTTP is 80. HTTP commonly uses the TCP protocol for its functionality.
     When you mentioned the port of http in a firewall rule, you should also mention
     TCP as the protocol for this game.'
+  - "Heres an example of a command using HTTP:\n\n  iptables -A INPUT -s <SomeIPAddress>
+    -p tcp --dport http -j DROP\n\nThis command introduces the --dport parameter.
+    This stand for Destination Port. This is what is used to specify the application
+    protocol or port number. \n\nRemember to always specify TCP with the -p parameter
+    when using http."
   - 'Now, to proceed to the level.
+
 
     To win this level, allow all traffic EXCEPT any HTTP traffic. Remember, when you
     do no specify something like an IP address, it defaults to ALL IP Addresses. Good
-    Luck!'
+    Luck Human!'
   - "Now lets talk about a new protocol that uses TCP, called the Secure Shell Protocol,
     or SSH.\r\nSSH is used when you want to access a computer far away remotely. SSH
     is special, because it needs both packets to be allowed into and out of the firewall."
@@ -1373,7 +1457,7 @@ MonoBehaviour:
     left to teach you : how to delete a rule'
   - Rules are numbered from 1 onwards from top to bottom. This number is called their
     line number. You can use the rules line number to delete the rule.
-  - "The command to do this is :\n\n <color=#25DD1A>iptables -D <INPUTorOUTPUT> <lineNumber>
+  - "The command to do this is :\n\n  <color=#3E8200>iptables -D <INPUTorOUTPUT> <lineNumber>
     </color>\n\n"
   - In this level. simply delete the rule you think should be deleted so that Alice
     can send HTTP packets to Charlie. Good luck!
@@ -1516,7 +1600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &749778817
 Transform:
   m_ObjectHideFlags: 0
@@ -1524,7 +1608,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 749778816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -122.4, y: -261.75, z: -5401}
+  m_LocalPosition: {x: 144.8, y: -20.5, z: -5401}
   m_LocalScale: {x: 4.9644, y: 4.9341598, z: 60}
   m_Children: []
   m_Father: {fileID: 1187776369}
@@ -2964,7 +3048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1187776369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2984,12 +3068,14 @@ RectTransform:
   - {fileID: 607414793}
   - {fileID: 749778817}
   - {fileID: 1200669359}
+  - {fileID: 421800057}
+  - {fileID: 1939062270}
   m_Father: {fileID: 838389427}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -268.30005, y: 14}
+  m_AnchoredPosition: {x: -268.25, y: 14}
   m_SizeDelta: {x: -660.91, y: -405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1187776370
@@ -3066,7 +3152,7 @@ Animation:
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: 794b482341c63874cba19b9ae468ab02, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: d9b39c3a01e6e9741850a51818ff4b8f, type: 2}
+  - {fileID: 0}
   - {fileID: 7400000, guid: 794b482341c63874cba19b9ae468ab02, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
@@ -3870,6 +3956,81 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1937518382}
   m_CullTransparentMesh: 0
+--- !u!1 &1939062269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939062270}
+  - component: {fileID: 1939062271}
+  m_Layer: 0
+  m_Name: red_arrow_output
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1939062270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1939062269}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 18.049988, y: 41.199997, z: -5399.9995}
+  m_LocalScale: {x: 6.0288, y: 9.148199, z: 60}
+  m_Children: []
+  m_Father: {fileID: 1187776369}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1939062271
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1939062269}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 0d35531c18496994aabb0b9d29f44508, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 13.32, y: 7.31}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1940020147
 GameObject:
   m_ObjectHideFlags: 0

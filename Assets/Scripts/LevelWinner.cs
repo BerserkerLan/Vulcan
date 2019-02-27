@@ -70,9 +70,12 @@ public class LevelWinner : MonoBehaviour {
 
     int inputIndex, outputIndex;
 
+    TMP_InputField inputField;
+
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         selectedBlueColor = new Color();
         UnselectedBlueColor = new Color();
         ColorUtility.TryParseHtmlString("#2F49AD", out selectedBlueColor);
@@ -145,6 +148,22 @@ public class LevelWinner : MonoBehaviour {
         }
         hintBox.SetActive(false);
 
+      
+
+    }
+    bool allowEnter;
+    private void Update()
+    {
+        if (allowEnter && (terminalInput.text.Length > 0) && (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
+        {
+            runCommand();
+            allowEnter = false;
+        }
+        else
+        {
+            allowEnter = terminalInput.isFocused || terminalInput.isFocused;
+        }
+        
     }
 
     void deleteIndexByLineNumberInput(int line)
@@ -994,7 +1013,9 @@ public class LevelWinner : MonoBehaviour {
         SceneManager.LoadScene(1);
     }
 
-    void runCommand()
+
+   
+   public void runCommand()
     {
         string[] commandsParse = terminalInput.text.Split(' ');
         string[] syntaxCommandsTables = { "iptables", "OUTPUT", "INPUT", "ACCEPT", "DROP" };

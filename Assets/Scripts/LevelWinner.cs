@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class LevelWinner : MonoBehaviour {
 
@@ -63,6 +64,9 @@ public class LevelWinner : MonoBehaviour {
     public GameObject alicePacketLevel7;
     public GameObject bobPacketLevel8;
     public GameObject alicePacketLevel8;
+
+    public GameObject errorPanel;
+    public TextMeshProUGUI errorText;
 
     int inputIndex, outputIndex;
 
@@ -145,41 +149,51 @@ public class LevelWinner : MonoBehaviour {
 
     void deleteIndexByLineNumberInput(int line)
     {
-            if (inputIndex == 0)
+        Destroy(inputNumberLayout.GetComponent<Transform>().GetChild(line).gameObject);
+        if (inputIndex == 0)
+        {
+            return;
+        }
+        if (inputIndex == 1)
+        {
+            foreach (Transform childr in inputNumberLayout.transform)
             {
-                return;
-            }
-            if (inputIndex == 1)
-            {
-                Debug.Log("Deleting Input");
-                foreach (Transform childr in inputNumberLayout.transform)
-                {
                 if (childr.gameObject.name != "#")
                 {
+                    Debug.Log("Destroying object : " + childr.gameObject.name);
                     Destroy(childr.gameObject);
                 }
-                }
-                inputIndex--;
             }
-            else
+            inputIndex--;
+        }
+        else
+        {
+            inputIndex--;
+            Destroy(inputNumberLayout.GetComponent<Transform>().GetChild((line)).gameObject);
+            foreach (Transform childr in inputNumberLayout.transform)
             {
-                inputIndex--;
-                Destroy(inputNumberLayout.GetComponent<Transform>().GetChild((line)).gameObject);
-                Debug.Log("Deleting Input again");
-                foreach (Transform childr in inputNumberLayout.transform)
+                if (childr.gameObject.name != "#")
                 {
-                  if (childr.gameObject.name != "#")
+                    Debug.Log("current Child is :" + childr.gameObject.GetComponent<TextMeshProUGUI>().text);
+                    try
                     {
-
-                        if (int.Parse(childr.gameObject.name) > line)
+                        if (Convert.ToInt32(childr.gameObject.name) > line)
                         {
-                            childr.gameObject.name = (int.Parse(childr.gameObject.name) - 1) + "";
+                            childr.gameObject.name = (Convert.ToInt32(childr.gameObject.name) - 1) + "";
+                            childr.gameObject.GetComponent<TextMeshProUGUI>().text = (Convert.ToInt32(childr.gameObject.GetComponent<TextMeshProUGUI>().text) - 1) + "";
                         }
                     }
+                    catch
+                    {
+                        Debug.Log("Caught in parsing the int in the number layout"); //So this got caught
+                    }
                 }
-            }
 
-      
+            }
+        }
+
+
+
 
     }
 
@@ -521,6 +535,13 @@ public class LevelWinner : MonoBehaviour {
         yield return new WaitForSeconds(5);
         losingPanel.SetActive(false);
 
+    }
+
+    IEnumerator panelErrorTemporaryEnum()
+    {
+        errorPanel.SetActive(true);
+        yield return new WaitForSeconds(3);
+        errorPanel.SetActive(false);
     }
 
     IEnumerator winningPanelTemporaryEnum()
@@ -960,6 +981,12 @@ public class LevelWinner : MonoBehaviour {
         }
     }
 
+    void showErrorPanel(String errorMessage)
+    {
+        StartCoroutine(panelErrorTemporaryEnum());
+        errorText.text = errorMessage;
+    }
+
     void StartTutorial2()
     {
         BreifingTextControl.changedTutorialState = true;
@@ -970,12 +997,40 @@ public class LevelWinner : MonoBehaviour {
     void runCommand()
     {
         string[] commandsParse = terminalInput.text.Split(' ');
-        if (commandsParse[1] == "--policy")
+        string[] syntaxCommandsTables = { "iptables", "OUTPUT", "INPUT", "ACCEPT", "DROP" };
+        string[] syntaxCommandsParams = {"-s", "--dport", "-p", "-D" };
+        string[] commandsFollowedByConstants = {"-A", "-j" , "--policy" };
+
+        string[] total = { "iptables", "OUTPUT", "INPUT", "ACCEPT", "DROP", "-s", "-D", "--dport", "-p", "-A", "-j", "--policy" };
+
+        bool DEncountered = false;
+        for (int i = 0; i < commandsParse.Length; i++)
+        {
+            if (commandsParse[i] == "-D")
+            {
+                DEncountered = true;
+            }
+            if (i >=1)
+            {
+                if (!DEncountered && !total.Contains(commandsParse[i]) && !syntaxCommandsParams.Contains(commandsParse[i - 1])) //If using a value like an IP, but it isn't preceeded by a parameter
+                {
+                    Debug.Log("Syntax error");
+                    showErrorPanel("Error in syntax, Please check the hint or breifing for a reminder"); //This check needs work
+                    return;
+                }
+                else if (!DEncountered && syntaxCommandsParams.Contains(commandsParse[i]) && syntaxCommandsParams.Contains(commandsParse[i-1])) //If you specify one paramtere after another with no value
+                {
+                    showErrorPanel("Error in syntax, Please check the hint or breifing for a reminder");
+                }
+            }
+        }
+        if (commandsParse[1] == "--policy") //policy has to be lower case
         {
             string table = commandsParse[2];
             if (table != "INPUT" && table != "OUTPUT")
             {
                 Debug.Log("Invalid Table");
+                showErrorPanel("The term \'" + table + "\' is not a table");
             }
             else
             {
@@ -983,6 +1038,7 @@ public class LevelWinner : MonoBehaviour {
                 if (policy != "ACCEPT" && policy != "DROP")
                 {
                     Debug.Log("Invalid Policy");
+                    showErrorPanel("The term \'" + policy + "\' is not a policy");
                 }
                 else
                 {
@@ -997,10 +1053,14 @@ public class LevelWinner : MonoBehaviour {
                         outputDefaultRule = policy;
                         outputDefault.text = "Default : " + policy;
                     }
+                    else
+                    {
+                        showErrorPanel("The term \'" + table + "\' is not a table");
+                    }
                 }
             }
         }
-        else if (commandsParse[1] == "-A")
+        else if (commandsParse[1] == "-A") //-A is case sensetive too ; _ ;
         {
             if (commandsParse[2] == "INPUT")
             {
@@ -1091,10 +1151,14 @@ public class LevelWinner : MonoBehaviour {
                 addOutputRule(rule);
 
             }
+            else
+            {
+                showErrorPanel("The term \'" + commandsParse[2] +  "\' is not a valid table");
+            }
         }
         else if (commandsParse[1] == "-D" || commandsParse[1] == "-d")
-            Debug.Log("Deleting rule detected");
         {
+            Debug.Log("Deleting rule detected");
             string table = "";
             if (commandsParse[2] == "INPUT" || commandsParse[2] == "OUTPUT")
             {
@@ -1117,21 +1181,20 @@ public class LevelWinner : MonoBehaviour {
                     try
                     {
                         inputTableRules.RemoveAt(line - 1);
-                        Debug.Log("Child Count: " + inputTableLayout.GetComponent<Transform>().GetChild(line * 6).gameObject.name);
                         deleteIndexByLineNumberInput(line);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6))).gameObject);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 1)).gameObject);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 2)).gameObject);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 3)).gameObject);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 4)).gameObject);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 5)).gameObject);
-                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(((line * 6) + 6)).gameObject);
-                       
-                        
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild(line * 6).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 1).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 2).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 3).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 4).gameObject);
+                        Destroy(inputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 5).gameObject);
+
+
                     }
                     catch
                     {
                         Debug.Log("Got caught in INPUT for deletion");
+                        showErrorPanel("Invalid line number, please try again");
                     }
 
                 }
@@ -1139,7 +1202,9 @@ public class LevelWinner : MonoBehaviour {
                 {
                     int line = Convert.ToInt32(lineNumber);
                     Debug.Log("line after conversion:" + line);
-                    
+
+                    try
+                    {
                         outputTableRules.RemoveAt(line - 1);
                         deleteIndexByLineNumberOutput(line);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild(line * 6).gameObject);
@@ -1148,11 +1213,18 @@ public class LevelWinner : MonoBehaviour {
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 3).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 4).gameObject);
                         Destroy(outputTableLayout.GetComponent<Transform>().GetChild((line * 6) + 5).gameObject);
-                        
+                    }
+                    catch
+                    {
+                        showErrorPanel("Invalid line number, please try again");
+                    }
                     
                     
                 }
             }
+        }
+        else {
+            showErrorPanel("Unrecognized command, check the command from the hint or briefing again");
         }
     }
 

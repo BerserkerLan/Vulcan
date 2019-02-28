@@ -168,7 +168,7 @@ public class LevelWinner : MonoBehaviour {
 
     void deleteIndexByLineNumberInput(int line)
     {
-        Destroy(inputNumberLayout.GetComponent<Transform>().GetChild(line).gameObject);
+        //Debug.Log("INNPUT INDD : " + inputIndex);
         if (inputIndex == 0)
         {
             return;
@@ -219,7 +219,6 @@ public class LevelWinner : MonoBehaviour {
     void deleteIndexByLineNumberOutput(int line)
     {
 
-        Destroy(outputNumberLayout.GetComponent<Transform>().GetChild(line).gameObject);
         if (outputIndex == 0)
             {
                 return;

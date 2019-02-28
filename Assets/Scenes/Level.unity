@@ -1721,7 +1721,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 131561637}
   m_HandleRect: {fileID: 131561636}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -25544,7 +25544,7 @@ GameObject:
   - component: {fileID: 1943673254}
   - component: {fileID: 1943673253}
   m_Layer: 0
-  m_Name: target_label
+  m_Name: '#'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28456,7 +28456,7 @@ GameObject:
   - component: {fileID: 2129402536}
   - component: {fileID: 2129402535}
   m_Layer: 0
-  m_Name: target_label
+  m_Name: '#'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

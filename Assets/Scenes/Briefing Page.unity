@@ -1277,7 +1277,7 @@ MonoBehaviour:
   nextButton: {fileID: 268087074}
   backButton: {fileID: 834481925}
   UIPanel: {fileID: 0}
-  state: 1
+  state: 5
   keyboardSound: {fileID: 862610141}
   tutNo: {fileID: 906538095}
   diagramPanel: {fileID: 1187776368}
@@ -1336,8 +1336,8 @@ MonoBehaviour:
     firewall."
   - Now, lets play! Try out the hint button if you forget the command!
   - "Wow, you really have improved my opinion of your race. You're not too shabby!
-    Congratulations on adding that rule!\r\nNow, you might have noticed a bunch of
-    \"ANY\" values added to the table row when you added a rule."
+    Congratulations on adding that rule!\r\n\nNow, you might have noticed a bunch
+    of \"ANY\" values added to the table row when you added a rule."
   - "This is because we have yet to define an important part of networking called
     Network protocols.\r\n\r\nProtocols are basically a set of rules that determine
     how a packet may be structured, or how the communication will be established.\r\n"
@@ -1375,11 +1375,11 @@ MonoBehaviour:
     The Port number for HTTP is 80. HTTP commonly uses the TCP protocol for its functionality.
     When you mentioned the port of http in a firewall rule, you should also mention
     TCP as the protocol for this game.'
-  - "Heres an example of a command using HTTP:\n\n  iptables -A INPUT -s <SomeIPAddress>
-    -p tcp --dport http -j DROP\n\nThis command introduces the --dport parameter.
-    This stand for Destination Port. This is what is used to specify the application
-    protocol or port number. \n\nRemember to always specify TCP with the -p parameter
-    when using http."
+  - "Heres an example of a command using HTTP:\n\n   <color=#3E8200>iptables -A INPUT
+    -s <SomeIPAddress> -p tcp --dport http -j DROP</color>\n\nThis command introduces
+    the --dport parameter. This stand for Destination Port. This is what is used to
+    specify the application protocol or port number. \n\nRemember to always specify
+    TCP with the -p parameter when using http."
   - 'Now, to proceed to the level.
 
 
@@ -1387,31 +1387,42 @@ MonoBehaviour:
     do no specify something like an IP address, it defaults to ALL IP Addresses. Good
     Luck Human!'
   - "Now lets talk about a new protocol that uses TCP, called the Secure Shell Protocol,
-    or SSH.\r\nSSH is used when you want to access a computer far away remotely. SSH
-    is special, because it needs both packets to be allowed into and out of the firewall."
-  - "Due to this, access for SSH is generally allowed both ways in firewalls. \rAlso.
-    SSH runs on port 22.\nLets go to the next level now. For this level, allow Charlie
-    to SSH into Alice's computer, and drop anything else. Remember to use the hint
-    if you've forgotten the syntax!\n"
+    or SSH.\r\n\nSSH is used when you want to access a computer far away remotely.
+    SSH is special, because it needs both packets to be allowed into and out of the
+    firewall."
+  - 'Due to this, Access for SSH has to be allowed in both INPUT and OUTPUT chains.
+
+
+    The port no. for SSH is 22. Remember that SSH also uses TCP, similar to HTTP.
+
+
+    Lets go to the next level now. For this level, allow Charlie to SSH into Alice''s
+    computer, and drop anything else. Remember to use the hint if you''ve forgotten
+    the syntax!
+
+'
   - "While we've talked about TCP, lets talk about another big protocol called the
-    User Datagram Protocol (UDP).\r\nUDP is faster than TCP, as TCP checks for errors
+    User Datagram Protocol (UDP).\r\n\nUDP is faster than TCP, as TCP checks for errors
     in the packets e.g. if a packet gets lost, TCP requests that the packet be sent
     again, while UDP just ignores it."
   - "UDP is used over TCP in areas where time is of the utmost importance in connections.
-    This is often used in real time multiplayer games, or in online voice calls, where
-    some loss of packets can go unnoticed, and the main goal is to ensure quick transmission
-    of data.\r\n"
-  - "Another thing about UDP is that it does not really preserve ordering of data.
+    \n\nThis is often used in real time multiplayer games, or in online voice calls,
+    where some loss of packets can go unnoticed, and the main goal is to ensure quick
+    transmission of data.\r\n"
+  - "Another thing about UDP is that it does not really preserve ordering of data.\n\n
     For instance, if Charlie sends Alice a message A, and then sends a message B shortly
-    after that, Alice might receive message B before message A.\r\nThis order is essentially
-    unpredictable."
-  - "Lets make some simple firewall rules using UDP. For this level, Block HTTP traffic
-    from Bob to Alice, and vice versa (both chains). Also, allow UDP traffic from
-    Charlie to Alice only (one chain). \r\n"
-  - "In case you're wondering what is meant by chains, what we have seen as the INPUT
-    and OUTPUT tables so far are actually the INPUT and OUTPUT chain. They are called
-    chains due to the fact that rules are read in order i.e. from top to bottom. We
-    will go more into detail about that later.\r\nLet us now proceed to the level.\n"
+    after that, Alice might receive message B before message A.\r\n\nThis order is
+    essentially unpredictable."
+  - "Lets make some simple firewall rules using UDP. \n\nFor this level, Block HTTP
+    traffic from Bob to Alice, and vice versa (both chains). Also, allow UDP traffic
+    from Charlie to Alice only (one chain). \r\n"
+  - 'Just so you know, chains basically refer to a group of rules. In the levels so
+    far, you have added rules to INPUT and OUTPUT chains.
+
+
+    Let us now proceed to the level.
+
+'
   - 'Great Job! Now I know your inferior human minds cannot retain so much information
     for so long, so I will do a breif overview.
 
@@ -1421,15 +1432,13 @@ MonoBehaviour:
     is that it retains the order of all the packets, so it will always arrive to a
     computer in the same order it was sent.
 
+
     Another thing is that TCP accounts for missing packets in case one gets lost on
     the way. It does this by telling the computer that send that packet to send it
     again. This, however, can make it slow.'
-  - 'That''s where UDP comes in. It does not maintain the order of packets, nor does
-    it ensure that there are no packets lost. But it is fast, and used to things like
-    Video Streaming or Multiplayer Gaming, where speed is more important.
-
-
-'
+  - "That's where UDP comes in. It does not maintain the order of packets, nor does
+    it ensure that there are no packets lost. \n\nBut it is fast, and used to things
+    like Video Streaming or Multiplayer Gaming, where speed is more important.\n\n"
   - 'HTTP and SSH mostly use TCP to ensure a good communication.
 
 

@@ -9,7 +9,7 @@ public class BreifingTextControl : MonoBehaviour {
 
    public enum TutorialState
     {
-        tutorial_1,tutorial_2, tutorial_3, tutorial_4 ,tutorial_5, tutorial_6, tutorial_7, tutorial_8, UItutorial
+        tutorial_1 = 1,tutorial_2 = 2, tutorial_3 = 3, tutorial_4 = 4 ,tutorial_5 = 5, tutorial_6 = 6, tutorial_7 = 7, tutorial_8 = 8, UItutorial = 0
     }
 
     int currentTutorialIndex;
@@ -47,6 +47,8 @@ public class BreifingTextControl : MonoBehaviour {
            
         }
         Debug.Log(state);
+
+        //Now set the indexes
         if (state == TutorialState.UItutorial)
         {
             currentTutorialIndex = 0;

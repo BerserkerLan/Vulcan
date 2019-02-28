@@ -1721,7 +1721,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 131561637}
   m_HandleRect: {fileID: 131561636}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10994,7 +10994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade308b49bf0dbe4daecf1824d17c5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 1
+  levelNumber: 3
   textMeshFont: {fileID: 11400000, guid: f35daf5f75177ce48a3257b73cd40b54, type: 2}
   playButton: {fileID: 594821052}
   runTerminalCommandButton: {fileID: 1123929666}
@@ -11035,20 +11035,22 @@ MonoBehaviour:
   breifingText:
   - "For this level, change the default policy of both of the chains to DROP. The
     command is:\n\n   <color=#25DD1A>iptables --policy INPUT ACCEPT</color>"
-  - "You need to do the following :\n\n1) Allow Alice to communicate to Bob.\n\n2)
-    Don't allow Alice to communicate with Charlie.\n\nThe command is : \n\n <color=#25DD1A>iptables
-    -A INPUT -s 122.15.43.22 -j DROP </color>\n\nThe above command says to DROP all
-    packets in the INPUT chain from a source IP of 192.11.76.5"
+  - "You need to do the following :\n\n1) DROP all packets from Charlie to Alice\n\n2)
+    Make sure Bob and Alice can still communicate fine.\n\nAn example of a command
+    is : \n\n <color=#25DD1A>iptables -A INPUT -s 122.15.43.22 -j DROP </color>\n\nThe
+    above command says to DROP all packets in the INPUT chain from a source IP of
+    192.11.76.5"
   - "You need to do the following :\n\n1) Allow TCP traffic from Alice's computer
     through the firewall, and also TCP traffic into Alice's computer from Bob or Charlie.\n\n2)
-    Drop everything else\n\nThe command is : \n\n <color=#25DD1A>iptables -A INPUT
-    -s 122.15.43.22 -p tcp -j DROP </color>\n\nThe above command says to DROP all
-    packets in the INPUT chain from the IP Address of 122.15.43.22 if it uses the
-    TCP protocol. This is case sensitive."
-  - "All you need to do is block all HTTP traffic into and out of the firewall.\n\nThe
-    command is : \n\n <color=#25DD1A>iptables -A INPUT -s 165.23.12.52 -p tcp --dport
-    http -j ACCEPT </color>\n\nThis will ACCEPT all packets that originate from an
-    IP address of 165.23.12.52 that use the HTTP application protocol under TCP."
+    Drop everything else\n\nAn example of a command is : \n\n <color=#25DD1A>iptables
+    -A INPUT -s 122.15.43.22 -p tcp -j DROP </color>\n\nThe above command says to
+    DROP all packets in the INPUT chain from the IP Address of 122.15.43.22 if it
+    uses the TCP protocol. This is case sensitive."
+  - "All you need to do is block all HTTP traffic into and out of the firewall.\n\nAn
+    example of a command is : \n\n <color=#25DD1A>iptables -A INPUT -s 165.23.12.52
+    -p tcp --dport http -j ACCEPT </color>\n\nThis will ACCEPT all packets that originate
+    from an IP address of 165.23.12.52 that use the HTTP application protocol under
+    TCP."
   - "To win this level, you must allow Charlie to SSH into Alice. You must drop everything
     else i.e. change the default policy. \n\nAn example of a command is :\n<color=#25DD1A>iptables
     -A INPUT -s 165.23.12.52 -p tcp --dport http -j ACCEPT </color>\n\nThis will ACCEPT
@@ -11061,7 +11063,7 @@ MonoBehaviour:
 
 
     2) Allow Charlie to send UDP packets to Alice.'
-  - 'To win, you have to do three things:
+  - 'To win, you have to do four things:
 
 
     1) Don''t allow Alice to SSH into Bob''s computer.
@@ -15539,7 +15541,7 @@ MonoBehaviour:
   nextButton: {fileID: 31568144}
   backButton: {fileID: 1045079463}
   UIPanel: {fileID: 1492768096}
-  state: 8
+  state: 0
   keyboardSound: {fileID: 0}
   tutNo: {fileID: 0}
   diagramPanel: {fileID: 0}

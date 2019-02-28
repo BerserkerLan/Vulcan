@@ -1277,7 +1277,7 @@ MonoBehaviour:
   nextButton: {fileID: 268087074}
   backButton: {fileID: 834481925}
   UIPanel: {fileID: 0}
-  state: 0
+  state: 1
   keyboardSound: {fileID: 862610141}
   tutNo: {fileID: 906538095}
   diagramPanel: {fileID: 1187776368}
@@ -1449,18 +1449,24 @@ MonoBehaviour:
     computer through the firewall, and traffic going into Charlies computer through
     the firewall.\n\n3) Set the default policy for both chains to DROP.\n\nThe order
     you do these matter!\t"
-  - 'If you''ve forgotten, don''t worry. Press the hint button to remind you!
+  - 'If you''ve forgotten, don''t worry. Press the breifing button to remind you!
+
+
+    Last level by the way.
 
 
     Lets Play!'
-  - 'Great. It seems you''ve become a master at this! I guess theres only one thing
-    left to teach you : how to delete a rule'
-  - Rules are numbered from 1 onwards from top to bottom. This number is called their
-    line number. You can use the rules line number to delete the rule.
+  - Good Job! Now, as you add more and more rules, you'll eventually want to know
+    how to delete a rule from the terminal.
+  - "Rules are numbered from 1 onwards from top to bottom. This number is called their
+    line number. \n\nYou can use the rules line number to delete the rule."
   - "The command to do this is :\n\n  <color=#3E8200>iptables -D <INPUTorOUTPUT> <lineNumber>
     </color>\n\n"
-  - In this level. simply delete the rule you think should be deleted so that Alice
-    can send HTTP packets to Charlie. Good luck!
+  - 'In this level. simply delete the rule you think should be deleted so that Alice
+    can send TCP packets to Charlie.
+
+
+    Good luck!'
   - I guess human beings are actually useful..... Maybe I need ot change my ideology.
     Thank you for showing me the light fellow human.
   - Now, behold, as a prize, my CHILDREN!

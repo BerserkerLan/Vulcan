@@ -135,8 +135,7 @@ public class LevelWinner : MonoBehaviour {
         if (levelNumber == 8)
         {
             addOutputRule("DROP 122.15.43.22 ANY ANY ANY tcp");
-            addOutputRule("DROP 122.15.43.22 ANY ANY ssh tcp");
-            addInputRule("DROP 192.168.1.33 ANY ANY http tcp");
+            addInputRule("DROP 192.11.76.5 ANY ANY ANY tcp");
         }
         networkDiagrams[levelNumber - 1].SetActive(true);
         hintTextBox.GetComponentInChildren<TextMeshProUGUI>().text = hintText[levelNumber - 1];
@@ -756,7 +755,7 @@ public class LevelWinner : MonoBehaviour {
                 charliePacketLevel3.GetComponent<Animation>().Play();
                 bobPacketLevel3.GetComponent<Animation>().Play();
                 ShowWinningPanel();
-                StartCoroutine(loadLevel4Tutorial());
+                StartCoroutine(loadLevel8Tutorial());
             }
             //Way 2:
             else if (inputTableRules.Contains(winningRule1) && outputTableRules.Contains(winningRule2) && outputTableRules.Contains(winningRule1) && inputTableRules.Contains(winningRule2) && inputTableRules.Contains(dropOnAllRule) && outputTableRules.Contains(dropOnAllRule))
@@ -769,7 +768,7 @@ public class LevelWinner : MonoBehaviour {
                 charliePacketLevel3.GetComponent<Animation>().Play();
                 bobPacketLevel3.GetComponent<Animation>().Play();
                 ShowWinningPanel();
-                StartCoroutine(loadLevel4Tutorial());
+                StartCoroutine(loadLevel8Tutorial());
             }
             else
             {
@@ -964,7 +963,7 @@ public class LevelWinner : MonoBehaviour {
                 bobPacketLevel7.GetComponent<Animation>().Play();
                 charliePacketLevel7.GetComponent<Animation>().Play();
                 ShowWinningPanel();
-                StartCoroutine(loadLevel8Tutorial());
+                StartCoroutine(loadWinningScene());
             }
             else
             {
@@ -989,7 +988,7 @@ public class LevelWinner : MonoBehaviour {
                 bobPacketLevel7.GetComponent<Animation>().Play();
                 charliePacketLevel7.GetComponent<Animation>().Play();
                 ShowWinningPanel();
-                StartCoroutine(loadWinningScene());
+                StartCoroutine(loadLevel4Tutorial());
             }
         else
             {

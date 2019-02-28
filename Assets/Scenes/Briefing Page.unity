@@ -1277,7 +1277,7 @@ MonoBehaviour:
   nextButton: {fileID: 268087074}
   backButton: {fileID: 834481925}
   UIPanel: {fileID: 0}
-  state: 5
+  state: 3
   keyboardSound: {fileID: 862610141}
   tutNo: {fileID: 906538095}
   diagramPanel: {fileID: 1187776368}

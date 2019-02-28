@@ -981,12 +981,12 @@ public class LevelWinner : MonoBehaviour {
         if (!outputTableRules.Contains("DROP 122.15.43.22 ANY ANY ANY tcp"))
             {
                 Debug.Log("You won!");
-                alicePacketLevel7.SetActive(true);
-                bobPacketLevel7.SetActive(true);
-                charliePacketLevel7.SetActive(true);
-                alicePacketLevel7.GetComponent<Animation>().Play();
-                bobPacketLevel7.GetComponent<Animation>().Play();
-                charliePacketLevel7.GetComponent<Animation>().Play();
+                alicePacketLevel8.SetActive(true);
+                bobPacketLevel8.SetActive(true);
+                //charliePacketLevel8.SetActive(true);
+                alicePacketLevel8.GetComponent<Animation>().Play();
+                bobPacketLevel8.GetComponent<Animation>().Play();
+                //charliePacketLevel7.GetComponent<Animation>().Play();
                 ShowWinningPanel();
                 StartCoroutine(loadLevel4Tutorial());
             }

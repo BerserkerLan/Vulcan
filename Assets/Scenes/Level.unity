@@ -5709,7 +5709,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Breifing
+  m_text: Briefing
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f35daf5f75177ce48a3257b73cd40b54, type: 2}
   m_sharedMaterial: {fileID: 21460949302352892, guid: f35daf5f75177ce48a3257b73cd40b54,
@@ -10994,7 +10994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade308b49bf0dbe4daecf1824d17c5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNumber: 3
+  levelNumber: 1
   textMeshFont: {fileID: 11400000, guid: f35daf5f75177ce48a3257b73cd40b54, type: 2}
   playButton: {fileID: 594821052}
   runTerminalCommandButton: {fileID: 1123929666}
@@ -11127,6 +11127,8 @@ MonoBehaviour:
   alicePacketLevel7: {fileID: 1305944573}
   bobPacketLevel8: {fileID: 932369802}
   alicePacketLevel8: {fileID: 290010807}
+  gameMusic: {fileID: 544618656}
+  buttonSoundsFX: {fileID: 1736538346}
   errorPanel: {fileID: 141293250}
   errorText: {fileID: 1395669133}
 --- !u!114 &839420585
@@ -11199,6 +11201,8 @@ MonoBehaviour:
   alicePacketLevel7: {fileID: 1305944573}
   bobPacketLevel8: {fileID: 932369802}
   alicePacketLevel8: {fileID: 290010807}
+  gameMusic: {fileID: 0}
+  buttonSoundsFX: {fileID: 0}
   errorPanel: {fileID: 0}
   errorText: {fileID: 0}
 --- !u!1 &841869770
@@ -15550,6 +15554,8 @@ MonoBehaviour:
   colonelImage: {fileID: 0}
   inputArrow: {fileID: 0}
   outputArrow: {fileID: 0}
+  gameMusic: {fileID: 0}
+  buttonSoundsFX: {fileID: 0}
   levelStartIndex: 4
   tutorialInstructions:
   - What you see above is the firewall. Click on the INPUT or OUTPUT buttons on the

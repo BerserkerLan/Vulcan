@@ -27,8 +27,13 @@ public class BreifingTextControl : MonoBehaviour {
     public GameObject colonelImage;
     public GameObject inputArrow;
     public GameObject outputArrow;
+    public AudioSource gameMusic;
+    public AudioSource buttonSoundsFX;
     int startIndex;
     bool coroutinePlaying;
+    Vector3 topPosition;
+
+
     
     public int levelStartIndex;
 
@@ -36,7 +41,8 @@ public class BreifingTextControl : MonoBehaviour {
     public string[] tutorialInstructions;
     // Use this for initialization
     void Start () {
-       
+
+        topPosition = UIPanel.transform.position;
         currentTutorialIndex = 0;
         levelStartIndex = 9;
         coroutinePlaying = false;
@@ -103,7 +109,11 @@ public class BreifingTextControl : MonoBehaviour {
         Debug.Log(levelStartIndex);
         Debug.Log(currentTutorialIndex);
        
-
+        if (state != TutorialState.UItutorial)
+        {
+            gameMusic.volume = AudioSliderHandler.VOLUME;
+            buttonSoundsFX.volume = AudioSliderHandler.VOLUME;
+        }
     }
 	
 

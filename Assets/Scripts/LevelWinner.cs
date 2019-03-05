@@ -65,6 +65,9 @@ public class LevelWinner : MonoBehaviour {
     public GameObject bobPacketLevel8;
     public GameObject alicePacketLevel8;
 
+    public AudioSource gameMusic;
+    public AudioSource buttonSoundsFX;
+
     public GameObject errorPanel;
     public TextMeshProUGUI errorText;
 
@@ -88,6 +91,9 @@ public class LevelWinner : MonoBehaviour {
         outputTableButton.onClick.AddListener(showOutputTable);
         hintButton.onClick.AddListener(showOrHideHint);
         resetButton.onClick.AddListener(resetTableAndRules);
+        gameMusic.volume = AudioSliderHandler.VOLUME;
+        buttonSoundsFX.volume = AudioSliderHandler.VOLUME;
+
         if (BreifingTextControl.staticTutorialState == BreifingTextControl.TutorialState.tutorial_2)
         {
             levelNumber = 2;
@@ -901,6 +907,9 @@ public class LevelWinner : MonoBehaviour {
 
             bool cond1 = inputTableRules.Contains("ACCEPT 192.11.76.5 ANY ANY ANY udp") && inputTableRules.Contains("DROP 192.168.1.33 ANY ANY http tcp");
             bool cond2 = outputTableRules.Contains("DROP 122.15.43.22 ANY ANY http tcp");
+
+            Debug.Log("Cond 1 : " + cond1);
+            Debug.Log("Cond 2 : " + cond2);
 
             if (cond1 && cond2)
             {

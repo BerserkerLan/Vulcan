@@ -1277,7 +1277,7 @@ MonoBehaviour:
   nextButton: {fileID: 268087074}
   backButton: {fileID: 834481925}
   UIPanel: {fileID: 0}
-  state: 3
+  state: 1
   keyboardSound: {fileID: 862610141}
   tutNo: {fileID: 906538095}
   diagramPanel: {fileID: 1187776368}
@@ -1286,6 +1286,8 @@ MonoBehaviour:
   colonelImage: {fileID: 1972196898}
   inputArrow: {fileID: 421800056}
   outputArrow: {fileID: 1939062269}
+  gameMusic: {fileID: 1384299376}
+  buttonSoundsFX: {fileID: 859507977}
   levelStartIndex: 9
   tutorialInstructions:
   - "Ok maggot, my name is Colonel Whiskers. You best remember that.\r\n\r\nYour only
@@ -1500,8 +1502,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Colonel whiskers
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f35daf5f75177ce48a3257b73cd40b54, type: 2}
+  m_sharedMaterial: {fileID: 21460949302352892, guid: f35daf5f75177ce48a3257b73cd40b54,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
